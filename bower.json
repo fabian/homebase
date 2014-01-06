@@ -1,0 +1,6 @@
+{
+  "name": "homebase",
+  "dependencies": {
+    "bootstrap": "~3.0"
+  }
+}
