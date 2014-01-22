@@ -23,4 +23,13 @@ class Beacons
             $beacon->get('proximity', ''),
         ));
     }
+
+    public function getBeacon($uuid) {
+    
+        $sql = 'SELECT * FROM `beacons` WHERE `uuid` = ? ORDER BY `recorded` DESC LIMIT 1';
+
+        $beacon = $this->database->fetchAssoc($sql, array($uuid));
+
+        return $beacon;
+    }
 }

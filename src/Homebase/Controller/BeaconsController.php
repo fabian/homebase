@@ -14,10 +14,17 @@ class BeaconsController
         $this->beacons = $beacons;
     }
 
-    public function addAction(Request $request)
+    public function addBeacon(Request $request)
     {
         $this->beacons->addBeacon($request->request);
 
         return new JsonResponse();
+    }
+
+    public function getBeacon($uuid)
+    {
+        $beacon = $this->beacons->getBeacon($uuid);
+
+        return new JsonResponse($beacon);
     }
 }
