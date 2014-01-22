@@ -2,10 +2,10 @@ $(function () {
     
     var width = 300,
         height = 300,
-        radius = Math.min(width, height) / 2,
+        radius = Math.min(width, height) / 2 - 10,
         color = d3.scale.category20c();
     
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#graph").append("svg")
         .attr("width", width)
         .attr("height", height)
       .append("g")
@@ -36,12 +36,12 @@ $(function () {
         .on("mouseover", mouseover);
     
     
-    g.append("text")
+    /*g.append("text")
         .attr("transform", function(d) { return "rotate(" + (d.x + d.dx / 2 - Math.PI / 2) / Math.PI * 180 + ")"; })
         .attr("x", function(d) { return Math.sqrt(d.y); })
         .attr("dx", "20") // margin
         .attr("dy", ".35em") // vertical-align
-        .text(function(d) { if (d.depth == 7 && (d.hour == '23:00' || d.hour == '00:00')) {return d.hour;} });
+        .text(function(d) { if (d.depth == 7 && (d.hour == '23:00' || d.hour == '00:00')) {return d.hour;} });*/
     });
     
     function mouseover(d) {
