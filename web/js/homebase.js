@@ -8,7 +8,7 @@ $(function () {
                 $('#beacon .light').removeClass('on');
             }
         }, dataType: "json", cache: false});
-    }, 500);
+    }, 1000);
 
     var width = 300,
         height = 300,
