@@ -7,7 +7,7 @@ $(function () {
             } else {
                 $('#beacon .light').removeClass('on');
             }
-        }, dataType: "json"});
+        }, dataType: "json", cache: false});
     }, 500);
 
     var width = 300,
