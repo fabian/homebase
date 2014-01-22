@@ -1,6 +1,7 @@
 {
   "name": "homebase",
   "dependencies": {
-    "bootstrap": "~3.0"
+    "bootstrap": "~3.0",
+    "d3": "~3.3.13"
   }
 }
