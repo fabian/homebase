@@ -24,11 +24,11 @@ class Beacons
         ));
     }
 
-    public function getBeacon($uuid) {
+    public function getBeacon($uuid, $major, $minor) {
     
-        $sql = 'SELECT * FROM `beacons` WHERE `uuid` = ? ORDER BY `recorded` DESC LIMIT 1';
+        $sql = 'SELECT * FROM `beacons` WHERE `uuid` = ? AND `major` = ? AND `minor` = ? ORDER BY `recorded` DESC LIMIT 1';
 
-        $beacon = $this->database->fetchAssoc($sql, array($uuid));
+        $beacon = $this->database->fetchAssoc($sql, array($uuid, $major, $minor));
 
         return $beacon;
     }

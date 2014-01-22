@@ -21,9 +21,9 @@ class BeaconsController
         return new JsonResponse();
     }
 
-    public function getBeacon($uuid)
+    public function getBeacon($uuid, $major, $minor)
     {
-        $beacon = $this->beacons->getBeacon($uuid);
+        $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
         return new JsonResponse($beacon);
     }

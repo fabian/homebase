@@ -17,7 +17,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
 
         $controllers->get('/', 'dashboard.controller:indexAction')->bind('dashboard');
         $controllers->get('/dashboard/day', 'dashboard.controller:dayAction');
-        $controllers->get('/beacons/{uuid}', 'beacons.controller:getBeacon');
+        $controllers->get('/beacons/{uuid}/{major}/{minor}', 'beacons.controller:getBeacon');
         $controllers->post('/beacons', 'beacons.controller:addBeacon');
 
         return $controllers;

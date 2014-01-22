@@ -1,6 +1,24 @@
+.container {
+    position: relative;
+}
+
 #hour {
     position: absolute;
     top: 260px;
-    left: 230px;
+    left: 150px;
     width: 140px;
+}
+
+#beacon {
+    position: absolute;
+    top: 225px;
+    left: 350px;
+    width: 100px;
+    height: 100px;
+    border-radius: 200px;
+    background-color: #E1516B;
+}
+
+#beacon.on {
+    background-color: #F9D76C;
 }
