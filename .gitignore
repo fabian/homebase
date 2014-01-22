@@ -1,5 +1,4 @@
 vendor/*
-web/components/*
 /config.php
 /cron.php
 /web/.htaccess
