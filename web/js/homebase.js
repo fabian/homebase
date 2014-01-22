@@ -3,9 +3,9 @@ $(function () {
     setInterval(function(){
         $.ajax({url: '/beacons/B9407F30-F5F8-466E-AFF9-25556B57FE6D/21023/64576', success: function(data) {
             if (data.proximity == 'immediate') {
-                $('#beacon').addClass('on');
+                $('#beacon .light').addClass('on');
             } else {
-                $('#beacon').removeClass('on');
+                $('#beacon .light').removeClass('on');
             }
         }, dataType: "json"});
     }, 500);

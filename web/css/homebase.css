@@ -13,12 +13,22 @@
     position: absolute;
     top: 225px;
     left: 350px;
+}
+
+#beacon .light {
     width: 100px;
     height: 100px;
     border-radius: 200px;
     background-color: #E1516B;
 }
 
-#beacon.on {
+#beacon.light.on {
     background-color: #F9D76C;
+}
+
+#beacon .name {
+    position: absolute;
+    top: 0;
+    left: 120px;
+    width: 400px;
 }
