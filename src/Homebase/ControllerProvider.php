@@ -17,6 +17,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
 
         $controllers->get('/', 'dashboard.controller:indexAction')->bind('dashboard');
         $controllers->get('/dashboard/day', 'dashboard.controller:dayAction');
+        $controllers->post('/beacons', 'beacons.controller:addAction');
 
         return $controllers;
     }

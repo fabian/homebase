@@ -21,10 +21,22 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
+        $app['beacons'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Service\Beacons(
+                $app['db']
+            );
+        });
+
         $app['dashboard.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\DashboardController(
                 $app['twig'],
                 $app['log']
+            );
+        });
+
+        $app['beacons.controller'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Controller\BeaconsController(
+                $app['beacons']
             );
         });
     }
