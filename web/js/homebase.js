@@ -7,6 +7,7 @@ $(function () {
             } else {
                 $('#beacon .light').removeClass('on');
             }
+            $('#beacon .recorded').text(data.recorded);
         }, dataType: "json", cache: false});
     }, 1000);
 
