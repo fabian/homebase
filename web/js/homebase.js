@@ -43,8 +43,9 @@ $(function () {
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom")
-            .ticks(d3.time.weeks)
-.tickSize(16, 0);
+            .ticks(d3.time.mondays)
+            .tickSize(16, 0)
+            .tickFormat(d3.time.format("%e. %b"));
         
         var y = d3.scale.linear()
             .domain([0, d3.max(data, function(d) { return d.y0 + d.y; })])
