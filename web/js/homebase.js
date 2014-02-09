@@ -75,9 +75,9 @@ $(function () {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
-.selectAll(".tick text")
-.attr("x", 6)
-.attr("y", 6)
-  .style("text-anchor", "start");
+            .selectAll(".tick text")
+            .attr("x", 6)
+            .attr("y", 6)
+            .style("text-anchor", "start");
     });
 });
