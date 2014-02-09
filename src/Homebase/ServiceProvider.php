@@ -41,6 +41,12 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
+        $app['setup.controller'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Controller\SetupController(
+                $app['twig']
+            );
+        });
+
         $app['beacons.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\BeaconsController(
                 $app['beacons']
