@@ -1,7 +1,7 @@
 $(function () {
     
-    var width = 310,
-        height = 310,
+    var width = 290,
+        height = 290,
         padding = 18,
         radius = Math.min(width, height) / 2 - padding;
     
