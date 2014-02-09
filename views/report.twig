@@ -1,0 +1,26 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Report</h1>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>2 days ago</h2>
+        <div id="day-3" class="graph-day"></div>
+    </div>
+    <div class="col-md-4">
+        <h2>Yesterday</h2>
+        <div id="day-2" class="graph-day"></div>
+    </div>
+    <div class="col-md-4">
+        <h2>Today</h2>
+        <div id="day-1" class="graph-day"></div>
+    </div>
+</div>
+{%  endblock %}
+
+{%  block footer %}
+<script src="{{ app.request.baseUrl }}/js/radialBarChart.js"></script>
+<script src="{{ app.request.baseUrl }}/js/report.js"></script>
+{% endblock %}

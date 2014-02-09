@@ -12,11 +12,11 @@ class Log
         $this->database = $database;
     }
 
-    public function getLogs($since)
+    public function getLogs($from, $to)
     {
-        $sql = 'SELECT * FROM `log_states` WHERE `created` >= ? ORDER BY `created`';
+        $sql = 'SELECT * FROM `log_states` WHERE `created` >= ? AND `created` < ? ORDER BY `created`';
 
-        $result = $this->database->fetchAll($sql, array($since));
+        $result = $this->database->fetchAll($sql, array($from, $to));
 
         return $result;
     }
