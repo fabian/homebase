@@ -11,7 +11,7 @@ $(function () {
         }, dataType: "json", cache: false});
     }, 1000);
 
-    d3.json('dashboard/week/', function(error, response) {
+    d3.json('dashboard/logs/', function(error, response) {
         
         var format = d3.time.format("%Y-%m-%d");
         

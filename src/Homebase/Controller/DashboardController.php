@@ -22,14 +22,13 @@ class DashboardController
         return $this->twig->render('dashboard.twig');
     }
 
-    public function weekAction()
+    public function logsAction()
     {
         $from = new \DateTime('-30 days');
         $to = new \DateTime('today');
 
-        $logs = $this->log->getLogs($from->format('Y-m-d 00:00:00'), $to->format('Y-m-d H:i:s'));
+        $logs = $this->log->getLogs($from->format('Y-m-d 00:00:00'), $to->format('Y-m-d 23:59:59'));
 
-        $to->modify( '+1 day' ); // include today
         $period = new \DatePeriod($from, new \DateInterval('P1D'), $to);
         $days = array();
         foreach( $period as $date) {
@@ -49,7 +48,9 @@ class DashboardController
                     $hours[$light] = $days;
                 }
 
-                $hours[$light][$date][$hour] = $log['on'];
+                if (isset($hours[$light][$date])) {
+                    $hours[$light][$date][$hour] = $log['on'];
+                }
             }
         }
 

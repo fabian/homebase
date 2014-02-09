@@ -16,7 +16,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', 'dashboard.controller:indexAction')->bind('dashboard');
-        $controllers->get('/dashboard/week/', 'dashboard.controller:weekAction');
+        $controllers->get('/dashboard/logs/', 'dashboard.controller:logsAction');
         $controllers->get('/report/', 'report.controller:indexAction')->bind('report');
         $controllers->get('/report/day/{day}/', 'report.controller:dayAction');
         $controllers->get('/setup/', 'setup.controller:indexAction')->bind('setup');
