@@ -22,29 +22,44 @@ class DashboardController
         return $this->twig->render('dashboard.twig');
     }
 
-    public function dayAction()
+    public function weekAction()
     {
-        $logs = $this->log->getLogs(date('Y-m-d H:00', strtotime('-24 hours')));
+        $from = new \DateTime('-30 days');
+        $to = new \DateTime('today');
+
+        $logs = $this->log->getLogs($from->format('Y-m-d 00:00:00'), $to->format('Y-m-d H:i:s'));
+
+        $to->modify( '+1 day' ); // include today
+        $period = new \DatePeriod($from, new \DateInterval('P1D'), $to);
+        $days = array();
+        foreach( $period as $date) {
+            $days[$date->format('Y-m-d')] = array();
+        }
 
         $hours = array();
         foreach ($logs as $log) {
-            $hours[date('H:00', strtotime($log['created']))][$log['light']] = $log['on'];
-        }
 
-        // wrap up
-        $data = array('children' => array());
-        foreach ($hours as $hour => $lights) {
-            $element = array();
-            foreach ($lights as $light => $on) {
-                $element['name'] = $light;
-                $element['hour'] = $hour;
-                $element['size'] = 1;
-                $element['on'] = $on;
-                $element = array('children' => array($element));
+            if ($log['on']) {
+
+                $light = $log['light'];
+                $date = date('Y-m-d', strtotime($log['created']));
+                $hour = date('H:00', strtotime($log['created']));
+
+                if (!isset($hours[$light])) {
+                    $hours[$light] = $days;
+                }
+
+                $hours[$light][$date][$hour] = $log['on'];
             }
-            $data['children'][] = $element;
         }
 
-        return new JsonResponse($data);
+        $data = array();
+        foreach ($hours as $light => $child) {
+            foreach ($child as $date => $logs) {
+                $data[] = array('light' => $light, 'date' => $date, 'hours' => count($logs));
+            }
+        }
+
+        return new JsonResponse(array('data' => $data));
     }
 }

@@ -23,11 +23,26 @@
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Dashboard</a></li>
-                    <li><a href="#">Report</a></li>
-                    <li><a href="#">Setup</a></li>
+                    <li{% if app.request.attributes.get('_route') == 'dashboard' %} class="active"{% endif %}>
+                        <a href="{{ path('dashboard') }}">
+                            <span class="hidden-xs">Dashboard</span>
+                            <span class="glyphicon glyphicon-home visible-xs"></span>
+                        </a>
+                    </li>
+                    <li{% if app.request.attributes.get('_route') == 'report' %} class="active"{% endif %}>
+                        <a href="{{ path('report') }}">
+                            <span class="hidden-xs">Report</span>
+                            <span class="glyphicon glyphicon-stats visible-xs"></span>
+                        </a>
+                    </li>
+                    <li{% if app.request.attributes.get('_route') == 'setup' %} class="active"{% endif %}>
+                        <a href="{{ path('setup') }}">
+                            <span class="hidden-xs">Setup</span>
+                            <span class="glyphicon glyphicon-wrench visible-xs"></span>
+                        </a>
+                    </li>
                 </ul>
-                <h3 class="text-muted">Homebase</h3>
+                <h3><a href="{{ path('dashboard') }}" class="text-muted">Homebase</a></h3>
             </div>
 
             {% block content %}
@@ -36,6 +51,8 @@
 
         <script src="{{ app.request.baseUrl }}/components/jquery/jquery.min.js"></script>
         <script src="{{ app.request.baseUrl }}/components/d3/d3.min.js"></script>
+        {%  block footer %}
         <script src="{{ app.request.baseUrl }}/js/homebase.js"></script>
+        {% endblock %}
     </body>
 </html>

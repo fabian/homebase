@@ -1,16 +1,10 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-<h1>Dashboard</h1>
-<div id="hour"></div>
-<div id="graph"></div>
-<div id="beacon">
-    <div class="light"></div>
-    <p class="name">
-        UUID: B9407F30-F5F8-466E-AFF9-25556B57FE6D<br/>
-        Major: 21023<br/>
-        Minor: 64576<br/>
-        Recorded: <span class="recorded">-</span>
-    </p>
+<div class="page-header">
+    <h1>Dashboard</h1>
 </div>
+<p>Light usage over the past 30 days:</p>
+<div id="graph"></div>
+
 {%  endblock %}

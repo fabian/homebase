@@ -2,17 +2,12 @@
     position: relative;
 }
 
-#hour {
-    position: absolute;
-    top: 260px;
-    left: 150px;
-    width: 140px;
+.header h3 {
+    font-weight: normal;
 }
 
 #beacon {
-    position: absolute;
-    top: 225px;
-    left: 350px;
+    position: relative;
 }
 
 #beacon .light {
@@ -31,4 +26,23 @@
     top: 0;
     left: 120px;
     width: 400px;
+}
+
+.graph-day {
+    padding: 15px 0;
+}
+
+.axis path {
+    display: none;
+}
+
+.axis line {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 11px sans-serif;
+  fill: #777;
 }
