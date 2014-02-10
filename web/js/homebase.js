@@ -1,16 +1,5 @@
 $(function () {
 
-    setInterval(function(){
-        $.ajax({url: 'beacons/B9407F30-F5F8-466E-AFF9-25556B57FE6D/21023/64576', success: function(data) {
-            if (data.proximity == 'immediate') {
-                $('#beacon .light').addClass('on');
-            } else {
-                $('#beacon .light').removeClass('on');
-            }
-            $('#beacon .recorded').text(data.recorded);
-        }, dataType: "json", cache: false});
-    }, 1000);
-
     d3.json('dashboard/logs/', function(error, response) {
         
         var format = d3.time.format("%Y-%m-%d");
