@@ -84,7 +84,7 @@ $(function () {
             
             circleAxes.append("svg:text")
                 .attr("text-anchor", "center")
-                .attr('dx', -3)
+                .attr('dx', 2)
                 .attr("dy", function(d) { return - size(d) - 2 })
                 .style("fill", "#777")
                 .style("font-size","11px")
