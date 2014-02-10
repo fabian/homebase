@@ -57,13 +57,12 @@ $(function () {
                 .enter().append('svg:text')
                 .attr('dy', -(padding/2))
                 .attr("transform", function (d, i) {
-                    return "translate(0," + (-radius) + ") rotate(" + (degree(i) + 7) +
-                        ",0," + radius + ")";
+                    return "translate(0," + (-radius) + ") rotate(" + degree(i) + ",0," + radius + ")";
                 })
                 .attr("class", "line-ticks")
                 .style("fill", "#777")
                 .style("font-size","11px")
-                .text(function(d,i){ return d.hour; })
+                .text(function(d,i){ if (i  % 3 == 0) { return d.hour; } })
                 .attr("text-anchor", "middle");
                     
             // add circle axes
