@@ -25,9 +25,26 @@ class Regions
 
     public function getRegions($from, $to, $limit = 10)
     {
-        $sql = 'SELECT * FROM `regions` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC LIMIT ?';
+        $limit = (int) $limit;
+        $sql = 'SELECT * FROM `regions` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC LIMIT ' . $limit;
 
-        $result = $this->database->fetchAll($sql, array($from, $to, $limit));
+        $result = $this->database->fetchAll($sql, array($from, $to));
+
+        return $result;
+    }
+
+    public function getRegionStates()
+    {
+        $sql = 'SELECT `uuid`, `major`, `minor`, 
+            (SELECT `state` 
+                FROM regions rr 
+                WHERE rr.uuid = r.uuid AND rr.major = r.major AND rr.minor = r.minor 
+                ORDER BY `recorded` DESC 
+                LIMIT 1) AS `state` 
+            FROM `regions` r
+            GROUP BY uuid, major, minor';
+
+        $result = $this->database->fetchAll($sql);
 
         return $result;
     }

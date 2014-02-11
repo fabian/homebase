@@ -15,6 +15,20 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
     {
         $config = $this->config;
 
+        $app['client.remotehue'] = $app->share(function () use ($app) {
+            $client = new \Guzzle\Http\Client('https://www.meethue.com/api/');
+            $client->setUserAgent('hue/1.1.3 CFNetwork/672.0.2 Darwin/14.0.0');
+            return $client;
+        });
+
+        $app['remotehue'] = $app->share(function () use ($app, $config) {
+            return new \Homebase\Service\RemoteHue(
+                $app['client.remotehue'],
+                $config['remote_api']['bridge_id'],
+                $config['remote_api']['access_token']
+            );
+        });
+
         $app['log'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Log(
                 $app['db']
@@ -30,6 +44,13 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['regions'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Regions(
                 $app['db']
+            );
+        });
+
+        $app['engine'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Service\Engine(
+                $app['regions'],
+                $app['remotehue']
             );
         });
 

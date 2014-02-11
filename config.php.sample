@@ -2,6 +2,10 @@
 
 return array(
     'debug' => true,
+    'remote_api' => array(
+        'bridge_id' => '',
+        'access_token' => '',
+    ),
     'database' => array(
         'default' => array(
             'user' => 'root',
