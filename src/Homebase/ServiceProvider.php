@@ -82,7 +82,8 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
 
         $app['regions.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\RegionsController(
-                $app['regions']
+                $app['regions'],
+                $app['engine']
             );
         });
     }

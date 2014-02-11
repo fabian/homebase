@@ -10,13 +10,18 @@ class RegionsController
 {
     protected $regions;
 
-    public function __construct($regions) {
+    protected $engine;
+
+    public function __construct($regions, $engine) {
         $this->regions = $regions;
+        $this->engine = $engine;
     }
 
     public function addRegion(Request $request)
     {
         $this->regions->addRegion($request->request);
+
+        $this->engine->run();
 
         return new JsonResponse();
     }
