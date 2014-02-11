@@ -97,7 +97,7 @@ $(function () {
         
         var y = d3.scale.linear()
             .domain([0, d3.max(data, function(d) { return d.y0 + Math.abs(d.rssi); })])
-            .range([height, padding]);
+            .range([height - 2 * padding, padding]);
         
         var color = d3.scale.linear()
             .domain([0, layers.length - 1])

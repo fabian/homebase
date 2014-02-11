@@ -8,15 +8,22 @@
 <div id="graph" class="graph-stream-usage"></div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h3>Events</h3>
         {% for region in regions %}
-            <p><span class="text-muted">{{ region.recorded }}</span> {{ region.state }} {{ region.uuid }}</p>
+            <div class="row">
+                <div class="col-xs-6">
+                    <p><span class="text-muted">{{ region.recorded }}</span></p>
+                </div>
+                <div class="col-xs-6">
+                    <p>{{ region.state|capitalize }} {{ region.uuid|slice(1, 10) }}…<br/>{{ region.major }} {{ region.minor }}</p>
+                </div>
+            </div>
         {% endfor %}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-8">
         <h3>RSSI</h3>
-        <p>Last 24 hours</p>
+        <p>Signal strength over the last 60 minutes:</p>
         <div id="beacons" class="graph-stream-rssi"></div>
     </div>
 </div>
