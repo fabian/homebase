@@ -52,7 +52,7 @@ class Engine
         }
         
         foreach ($lights as $light => $on) {
-            var_dump($this->remoteHue->setLightState($light, array('on' => $on)));
+            $this->remoteHue->setLightState($light, array('on' => $on));
         }
     }
 }
