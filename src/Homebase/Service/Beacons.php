@@ -13,7 +13,7 @@ class Beacons
 
     public function addBeacon($beacon)
     {
-        $sql = 'INSERT INtO `beacons` (`uuid`, `major`, `minor`, `accuracy`, `proximity`, `recorded`) VALUES (?, ?, ?, ?, ?, NOW())';
+        $sql = 'INSERT INtO `beacons` (`uuid`, `major`, `minor`, `accuracy`, `proximity`, `rssi`, `recorded`) VALUES (?, ?, ?, ?, ?, ?, NOW())';
 
         $result = $this->database->executeUpdate($sql, array(
             $beacon->get('uuid', ''),
@@ -21,6 +21,7 @@ class Beacons
             $beacon->get('minor', ''),
             $beacon->get('accuracy', 0),
             $beacon->get('proximity', ''),
+            $beacon->get('rssi', 0),
         ));
     }
 
