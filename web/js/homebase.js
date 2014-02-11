@@ -4,12 +4,11 @@ $(function () {
         
         var format = d3.time.format("%Y-%m-%d");
         
-        var m = 3, // number of samples per layer
-            stack = d3.layout.stack()
-                .offset("silhouette")
-                .values(function(d) { return d.values; })
-                .x(function(d) { return d.date; })
-                .y(function(d) { return d.hours; });
+        var stack = d3.layout.stack()
+            .offset("silhouette")
+            .values(function(d) { return d.values; })
+            .x(function(d) { return d.date; })
+            .y(function(d) { return d.hours; });
         
         var nest = d3.nest()
             .key(function(d) { return d.light; });
@@ -21,8 +20,10 @@ $(function () {
         
         var layers = stack(nest.entries(data));
         
-        var width = parseInt(d3.select('#graph').style('width')),
-            height = 200,
+        var element = d3.select('#graph');
+        
+        var width = parseInt(element.style('width')),
+            height = parseInt(element.style('height')),
             padding = 10;
         
         var x = d3.time.scale()
@@ -37,8 +38,8 @@ $(function () {
             .tickFormat(d3.time.format("%e. %b"));
         
         var y = d3.scale.linear()
-            .domain([0, d3.max(data, function(d) { return d.y0 + d.y; })])
-            .range([height, padding]);
+            .domain([0, d3.max(data, function(d) { return d.y0 + d.hours; })])
+            .range([height - 3 * padding, padding]);
         
         var color = d3.scale.linear()
             .domain([0, layers.length - 1])
@@ -52,7 +53,7 @@ $(function () {
         
         var svg = d3.select("#graph").append("svg")
             .attr("width", width)
-            .attr("height", height + 2 * padding);
+            .attr("height", height);
         
         svg.selectAll("path")
             .data(layers)
@@ -62,7 +63,7 @@ $(function () {
             
         svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
+            .attr("transform", "translate(0," + (height - 2 * padding) + ")")
             .call(xAxis)
             .selectAll(".tick text")
             .attr("x", 6)

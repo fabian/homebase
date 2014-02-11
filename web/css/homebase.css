@@ -28,6 +28,11 @@
     width: 400px;
 }
 
+.graph-stream-usage {
+    height: 200px;
+    margin-bottom: 20px;
+}
+
 .graph-day {
     padding: 15px 0;
 }
@@ -47,4 +52,8 @@
   fill: #777;
     font: 11px sans-serif;
     fill: #777;
+}
+
+footer {
+    padding: 60px 0 40px 0;
 }
