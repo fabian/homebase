@@ -22,6 +22,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers->get('/setup/', 'setup.controller:indexAction')->bind('setup');
         $controllers->get('/beacons/{uuid}/{major}/{minor}', 'beacons.controller:getBeacon');
         $controllers->post('/beacons', 'beacons.controller:addBeacon');
+        $controllers->post('/regions/', 'regions.controller:addRegion');
 
         return $controllers;
     }
