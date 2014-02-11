@@ -4,7 +4,6 @@ namespace Homebase\Service;
 
 class Log
 {
-
     protected $database;
 
     public function __construct($database)

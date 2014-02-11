@@ -7,4 +7,18 @@
 <p>Light usage over the past 30 days:</p>
 <div id="graph" class="graph-stream-usage"></div>
 
+<div class="row">
+    <div class="col-md-6">
+        <h3>Events</h3>
+        {% for region in regions %}
+            <p><span class="text-muted">{{ region.recorded }}</span> {{ region.state }} {{ region.uuid }}</p>
+        {% endfor %}
+    </div>
+    <div class="col-md-6">
+        <h3>RSSI</h3>
+        <p>Last 24 hours</p>
+        <div id="beacons" class="graph-stream-rssi"></div>
+    </div>
+</div>
+
 {%  endblock %}

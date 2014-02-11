@@ -57,7 +57,9 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['dashboard.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\DashboardController(
                 $app['twig'],
-                $app['log']
+                $app['log'],
+                $app['beacons'],
+                $app['regions']
             );
         });
 

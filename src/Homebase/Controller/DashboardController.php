@@ -12,14 +12,62 @@ class DashboardController
 
     protected $log;
 
-    public function __construct($twig, $log) {
+    protected $beacons;
+
+    protected $regions;
+
+    public function __construct($twig, $log, $beacons, $regions) {
         $this->twig = $twig;
         $this->log = $log;
+        $this->beacons = $beacons;
+        $this->regions = $regions;
     }
 
     public function indexAction()
     {
-        return $this->twig->render('dashboard.twig');
+        $from = new \DateTime('-24 hour');
+        $to = new \DateTime('now');
+
+        $regions = $this->regions->getRegions($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
+
+        return $this->twig->render('dashboard.twig', array('regions' => $regions));
+    }
+
+    public function beaconsAction()
+    {
+        $from = new \DateTime('-59 minutes');
+        $to = new \DateTime('now');
+
+        $beacons = $this->beacons->getBeacons($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
+
+        $minutes = array();
+        foreach(range(0, 59) as $minute) {
+            $minutes[$minute] = 1;
+        }
+
+        $grouped = array();
+        foreach ($beacons as $beacon) {
+
+            $beaconId = $beacon['uuid'] . '.' . $beacon['major'] . '.' . $beacon['minor'];
+            $minute = (int) date('i', strtotime($beacon['recorded']));
+
+            if (!isset($grouped[$beaconId])) {
+                $grouped[$beaconId] = $minutes;
+            }
+
+            if ($beacon['rssi']) {
+                $grouped[$beaconId][$minute] = (int) $beacon['rssi'];
+            }
+        }
+
+        $data = array();
+        foreach ($grouped as $beacon => $minutes) {
+            foreach ($minutes as $minute => $rssi) {
+                $data[] = array('beacon' => $beacon, 'minute' => $minute, 'rssi' => $rssi);
+            }
+        }
+    
+        return new JsonResponse(array('data' => $data));
     }
 
     public function logsAction()

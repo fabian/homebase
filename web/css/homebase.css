@@ -33,6 +33,10 @@
     margin-bottom: 20px;
 }
 
+.graph-stream-rssi {
+    height: 150px;
+}
+
 .graph-day {
     padding: 15px 0;
 }

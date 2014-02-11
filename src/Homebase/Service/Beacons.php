@@ -25,6 +25,15 @@ class Beacons
         ));
     }
 
+    public function getBeacons($from, $to)
+    {
+        $sql = 'SELECT * FROM `beacons` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC';
+
+        $result = $this->database->fetchAll($sql, array($from, $to));
+
+        return $result;
+    }
+
     public function getBeacon($uuid, $major, $minor) {
     
         $sql = 'SELECT * FROM `beacons` WHERE `uuid` = ? AND `major` = ? AND `minor` = ? ORDER BY `recorded` DESC LIMIT 1';
