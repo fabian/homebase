@@ -46,16 +46,29 @@ class Engine
                         
                         // don't override value
                         if (!isset($lights[$light])) {
-                            $this->queue->addLight($light);
+                            $lights[$light] = false;
                         }
                     }
                 }
             }
         }
-
+        
         foreach ($lights as $light => $on) {
-            $this->queue->deleteLight($light);
-            $this->remoteHue->setLightState($light, array('on' => $on));
+
+            if ($on) {
+
+                // remove light from queue, avoid off
+                $this->queue->deleteLight($light);
+
+                // switch light on
+                $this->remoteHue->setLightState($light, array('on' => $on));
+
+            } else {
+
+                // add light to queue for delayed off
+                $this->queue->addLight($light);
+
+            }
         }
     }
 }
