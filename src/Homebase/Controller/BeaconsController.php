@@ -50,7 +50,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addState($beacon, $state);
+        $this->beacons->addState($beacon['id'], $state);
 
         // run engine
         $this->engine->run();
