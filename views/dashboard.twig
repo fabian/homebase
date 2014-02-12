@@ -10,13 +10,13 @@
 <div class="row">
     <div class="col-md-4">
         <h3>Events</h3>
-        {% for region in regions %}
+        {% for state in states %}
             <div class="row">
                 <div class="col-xs-6">
-                    <p><span class="text-muted">{{ region.recorded }}</span></p>
+                    <p><span class="text-muted">{{ state.recorded }}</span></p>
                 </div>
                 <div class="col-xs-6">
-                    <p>{{ region.state|capitalize }} {{ region.uuid|slice(1, 10) }}…<br/>{{ region.major }} {{ region.minor }}</p>
+                    <p>{{ state.state|capitalize }} {{ id }}</p>
                 </div>
             </div>
         {% endfor %}

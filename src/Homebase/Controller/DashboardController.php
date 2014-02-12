@@ -25,9 +25,9 @@ class DashboardController
         $from = new \DateTime('-24 hour');
         $to = new \DateTime('now');
 
-        $regions = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
+        $states = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
 
-        return $this->twig->render('dashboard.twig', array('regions' => $regions));
+        return $this->twig->render('dashboard.twig', array('states' => $states));
     }
 
     public function proximitiesAction()
@@ -45,7 +45,7 @@ class DashboardController
         $grouped = array();
         foreach ($beacons as $beacon) {
 
-            $beaconId = $beacon['uuid'] . '.' . $beacon['major'] . '.' . $beacon['minor'];
+            $beaconId = $beacon['id'];
             $minute = (int) date('i', strtotime($beacon['recorded']));
 
             if (!isset($grouped[$beaconId])) {
