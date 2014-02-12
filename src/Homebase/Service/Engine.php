@@ -25,7 +25,6 @@ class Engine
     public function run()
     {
         $states = $this->regions->getRegionStates();
-        var_dump($states);
 
         $lights = array();
         foreach ($states as $state) {
