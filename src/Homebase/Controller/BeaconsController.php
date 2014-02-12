@@ -32,7 +32,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addBeacon($beacon['id'], $accuracy, $proximity, $rssi);
+        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi);
 
         return new JsonResponse();
     }
