@@ -45,7 +45,7 @@ class DashboardController
         $grouped = array();
         foreach ($beacons as $beacon) {
 
-            $beaconId = $beacon['id'];
+            $beaconId = $beacon['beacon'];
             $minute = (int) date('i', strtotime($beacon['recorded']));
 
             if (!isset($grouped[$beaconId])) {
