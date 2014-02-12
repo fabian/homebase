@@ -21,6 +21,7 @@ class Delayed
 
         foreach ($lights as $light) {
             $this->remoteHue->setLightState($light['light'], array('on' => false));
+            $this->queue->deleteLight($light['light']);
         }
     }
 }
