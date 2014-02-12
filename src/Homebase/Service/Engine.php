@@ -12,22 +12,22 @@ class Engine
         'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF.0.65535' => array('1', '5', '4', '3', '2'),
     );
 
-    protected $regions;
+    protected $beacons;
 
     protected $remoteHue;
 
     protected $queue;
 
-    public function __construct($regions, $remoteHue, $queue)
+    public function __construct($beacons, $remoteHue, $queue)
     {
-        $this->regions = $regions;
+        $this->beacons = $beacons;
         $this->remoteHue = $remoteHue;
         $this->queue = $queue;
     }
 
     public function run()
     {
-        $states = $this->regions->getRegionStates();
+        $states = $this->beacons->getLatestStates();
 
         $lights = array();
         foreach ($states as $state) {
