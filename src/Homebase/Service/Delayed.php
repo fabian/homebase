@@ -16,7 +16,7 @@ class Delayed
 
     public function run()
     {
-        $to = new \DateTime('-2 minute');
+        $to = new \DateTime('-3 minute');
         $lights = $this->queue->getLights($to->format('Y-m-d H:i:s'));
 
         foreach ($lights as $light) {
