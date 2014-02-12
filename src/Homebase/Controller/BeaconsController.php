@@ -10,13 +10,50 @@ class BeaconsController
 {
     protected $beacons;
 
-    public function __construct($beacons) {
+    protected $engine;
+
+    public function __construct($beacons, $engine) {
         $this->beacons = $beacons;
+        $this->engine = $engine;
     }
 
-    public function addBeacon(Request $request)
+    public function addProximity(Request $request)
     {
-        $this->beacons->addBeacon($request->request);
+        $uuid = $beacon->get('uuid', '');
+        $major = $beacon->get('major', '');
+        $minor = $beacon->get('minor', '');
+        $accuracy = $beacon->get('accuracy', 0);
+        $proximity = $beacon->get('proximity', '');
+        $rssi = $beacon->get('rssi', 0);
+
+        // make sure beacon exists
+        $this->beacons->addBeacon($uuid, $major, $minor);
+
+        // get beacon id
+        $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
+
+        $this->beacons->addBeacon($beacon['id'], $accuracy, $proximity, $rssi);
+
+        return new JsonResponse();
+    }
+
+    public function addState(Request $request)
+    {
+        $uuid = $beacon->get('uuid', '');
+        $major = $beacon->get('major', '');
+        $minor = $beacon->get('minor', '');
+        $state = $beacon->get('state', '');
+
+        // make sure beacon exists
+        $this->beacons->addBeacon($uuid, $major, $minor);
+
+        // get beacon id
+        $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
+
+        $this->beacons->addState($beacon, $state);
+
+        // run engine
+        $this->engine->run();
 
         return new JsonResponse();
     }

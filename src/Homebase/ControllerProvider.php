@@ -17,13 +17,13 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
 
         $controllers->get('/', 'dashboard.controller:indexAction')->bind('dashboard');
         $controllers->get('/dashboard/logs/', 'dashboard.controller:logsAction');
-        $controllers->get('/dashboard/beacons/', 'dashboard.controller:beaconsAction');
+        $controllers->get('/dashboard/proximities/', 'dashboard.controller:proximitiesAction');
         $controllers->get('/report/', 'report.controller:indexAction')->bind('report');
         $controllers->get('/report/day/{day}/', 'report.controller:dayAction');
         $controllers->get('/setup/', 'setup.controller:indexAction')->bind('setup');
-        $controllers->get('/beacons/{uuid}/{major}/{minor}', 'beacons.controller:getBeacon');
-        $controllers->post('/beacons', 'beacons.controller:addBeacon');
-        $controllers->post('/regions/', 'regions.controller:addRegion');
+        $controllers->get('/beacons/{uuid}/{major}/{minor}/', 'beacons.controller:getBeacon');
+        $controllers->post('/beacons/state/', 'beacons.controller:addState');
+        $controllers->post('/beacons/proximity/', 'beacons.controller:addProximity');
 
         return $controllers;
     }

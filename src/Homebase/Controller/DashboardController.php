@@ -14,13 +14,10 @@ class DashboardController
 
     protected $beacons;
 
-    protected $regions;
-
-    public function __construct($twig, $log, $beacons, $regions) {
+    public function __construct($twig, $log, $beacons) {
         $this->twig = $twig;
         $this->log = $log;
         $this->beacons = $beacons;
-        $this->regions = $regions;
     }
 
     public function indexAction()
@@ -28,17 +25,17 @@ class DashboardController
         $from = new \DateTime('-24 hour');
         $to = new \DateTime('now');
 
-        $regions = $this->regions->getRegions($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
+        $regions = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
 
         return $this->twig->render('dashboard.twig', array('regions' => $regions));
     }
 
-    public function beaconsAction()
+    public function proximitiesAction()
     {
         $from = new \DateTime('-59 minutes');
         $to = new \DateTime('now');
 
-        $beacons = $this->beacons->getBeacons($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
+        $beacons = $this->beacons->getProximities($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
 
         $minutes = array();
         foreach(range(0, 59) as $minute) {

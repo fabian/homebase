@@ -47,12 +47,6 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
-        $app['regions'] = $app->share(function() use ($app, $config) {
-            return new \Homebase\Service\Regions(
-                $app['db']
-            );
-        });
-
         $app['engine'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Engine(
                 $app['regions'],
@@ -72,8 +66,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             return new \Homebase\Controller\DashboardController(
                 $app['twig'],
                 $app['log'],
-                $app['beacons'],
-                $app['regions']
+                $app['beacons']
             );
         });
 
@@ -92,13 +85,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
 
         $app['beacons.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\BeaconsController(
-                $app['beacons']
-            );
-        });
-
-        $app['regions.controller'] = $app->share(function() use ($app, $config) {
-            return new \Homebase\Controller\RegionsController(
-                $app['regions'],
+                $app['beacons'],
                 $app['engine']
             );
         });

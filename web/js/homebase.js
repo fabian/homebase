@@ -72,7 +72,7 @@ $(function () {
     });
     
     
-    d3.json('dashboard/beacons/', function(error, response) {
+    d3.json('dashboard/proximities/', function(error, response) {
         
         var stack = d3.layout.stack()
             .offset("silhouette")
