@@ -16,10 +16,13 @@ class Engine
 
     protected $remoteHue;
 
-    public function __construct($regions, $remoteHue)
+    protected $queue;
+
+    public function __construct($regions, $remoteHue, $queue)
     {
         $this->regions = $regions;
         $this->remoteHue = $remoteHue;
+        $this->queue = $queue;
     }
 
     public function run()
@@ -43,14 +46,15 @@ class Engine
                         
                         // don't override value
                         if (!isset($lights[$light])) {
-                            $lights[$light] = false;
+                            $this->queue->addLight($light);
                         }
                     }
                 }
             }
         }
-        
+
         foreach ($lights as $light => $on) {
+            $this->queue->deleteLight($light);
             $this->remoteHue->setLightState($light, array('on' => $on));
         }
     }
