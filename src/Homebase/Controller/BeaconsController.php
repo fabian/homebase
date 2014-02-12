@@ -19,12 +19,12 @@ class BeaconsController
 
     public function addProximity(Request $request)
     {
-        $uuid = $beacon->get('uuid', '');
-        $major = $beacon->get('major', '');
-        $minor = $beacon->get('minor', '');
-        $accuracy = $beacon->get('accuracy', 0);
-        $proximity = $beacon->get('proximity', '');
-        $rssi = $beacon->get('rssi', 0);
+        $uuid = $request->get('uuid', '');
+        $major = $request->get('major', '');
+        $minor = $request->get('minor', '');
+        $accuracy = $request->get('accuracy', 0);
+        $proximity = $request->get('proximity', '');
+        $rssi = $request->get('rssi', 0);
 
         // make sure beacon exists
         $this->beacons->addBeacon($uuid, $major, $minor);
@@ -39,10 +39,10 @@ class BeaconsController
 
     public function addState(Request $request)
     {
-        $uuid = $beacon->get('uuid', '');
-        $major = $beacon->get('major', '');
-        $minor = $beacon->get('minor', '');
-        $state = $beacon->get('state', '');
+        $uuid = $request->get('uuid', '');
+        $major = $request->get('major', '');
+        $minor = $request->get('minor', '');
+        $state = $request->get('state', '');
 
         // make sure beacon exists
         $this->beacons->addBeacon($uuid, $major, $minor);
