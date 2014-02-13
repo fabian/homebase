@@ -57,10 +57,10 @@ class OAuthController
         }
 
         if ($responseType != self::RESPONSE_TYPE_TOKEN) {
-            
+
             // unsupported response type, redirect back to client with error
             $uri = RedirectUri::create($client['redirect_uri'], array('error' => 'only response type token is supported'));
-            
+
             return new RedirectResponse($uri);
         }
 
@@ -77,7 +77,7 @@ class OAuthController
 
         return new RedirectResponse($uri);
     }
-    
+
     protected function getClient($id)
     {
         $client = $this->oauth->getClient($id);
