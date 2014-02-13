@@ -46,6 +46,10 @@
     height: 120px;
 }
 
+.graph-events {
+    height: 80px;
+}
+
 .graph-day {
     padding: 15px 0;
 }

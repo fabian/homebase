@@ -31,13 +31,13 @@ class Beacons
         ));
     }
 
-    public function getProximities($from, $to)
+    public function getProximities($from, $to, $limit = 100)
     {
-        $sql = 'SELECT * FROM `beacons_proximities` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC';
+        $sql = 'SELECT * FROM `beacons_proximities` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC LIMIT ?';
 
-        $result = $this->database->fetchAll($sql, array($from, $to));
+        $result = $this->database->executeQuery($sql, array($from, $to, $limit), array(\PDO::PARAM_STR, \PDO::PARAM_STR, \PDO::PARAM_INT));
 
-        return $result;
+        return $result->fetchAll();
     }
 
     public function getBeacon($uuid, $major, $minor) {

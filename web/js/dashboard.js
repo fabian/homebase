@@ -1,5 +1,64 @@
 $(function () {
 
+    d3.json('dashboard/events/', function(error, response) {
+        
+        var format = d3.time.format("%Y-%m-%d %H:%M:%S");
+        
+        var data = response.data;
+        data.forEach(function(d) {
+            d.recorded = format.parse(d.recorded);
+        });
+        
+        var element = d3.select('#events');
+        
+        var width = parseInt(element.style('width')),
+            height = parseInt(element.style('height')),
+            padding = 10;
+        
+        var x = d3.time.scale()
+            .domain(d3.extent(data, function(d) { return d.recorded; }))
+            .range([0, width]);
+        
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickFormat(d3.time.format("%H:%M"));
+        
+        var color = d3.scale.ordinal()
+            .domain(["proximity", "state"])
+            .range(['#84AED3', '#9E10A9']);
+        
+        var area = d3.svg.area()
+            .interpolate("cardinal")
+            .x(function(d) { return x(d.date); })
+            .y0(function(d) { return y(d.y0); })
+            .y1(function(d) { return y(d.y0 + d.hours); });
+        
+        var svg = element.append("svg")
+            .attr("width", width)
+            .attr("height", height);
+        
+        svg.selectAll("path")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.recorded); })
+            .attr("width", 1)
+            .attr("fill", function (d) { return color(d.type); })
+            .attr("y", function(d) { return 0; })
+            .attr("height", height - 2 * padding);
+        
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (height - 2 * padding) + ")")
+            .call(xAxis)
+            .selectAll(".tick text")
+            .attr("x", 6)
+            .attr("y", 6)
+            .style("text-anchor", "start");
+    });
+    
+
     d3.json('dashboard/logs/', function(error, response) {
         
         var format = d3.time.format("%Y-%m-%d");
@@ -51,7 +110,7 @@ $(function () {
             .y0(function(d) { return y(d.y0); })
             .y1(function(d) { return y(d.y0 + d.hours); });
         
-        var svg = d3.select("#graph").append("svg")
+        var svg = element.append("svg")
             .attr("width", width)
             .attr("height", height);
         

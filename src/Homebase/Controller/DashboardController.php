@@ -30,6 +30,27 @@ class DashboardController
         return $this->twig->render('dashboard.twig', array('states' => $states));
     }
 
+    public function eventsAction()
+    {
+        $from = new \DateTime('-59 minutes 59 seconds');
+        $to = new \DateTime('now');
+        $limit = 5000;
+
+        $data = array();
+
+        $proximities = $this->beacons->getProximities($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'), $limit);
+        foreach ($proximities as $proximity) {
+            $data[] = array('recorded' => $proximity['recorded'], 'type' => 'proximity', 'value' => $proximity['proximity']);
+        }
+
+        $states = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'), $limit);
+        foreach ($states as $state) {
+            $data[] = array('recorded' => $state['recorded'], 'type' => 'state', 'value' => $state['state']);
+        }
+
+        return new JsonResponse(array('data' => $data));
+    }
+
     public function proximitiesAction()
     {
         $from = new \DateTime('-59 minutes');
@@ -63,7 +84,7 @@ class DashboardController
                 $data[] = array('beacon' => $beacon, 'minute' => $minute, 'rssi' => $rssi);
             }
         }
-    
+
         return new JsonResponse(array('data' => $data));
     }
 
