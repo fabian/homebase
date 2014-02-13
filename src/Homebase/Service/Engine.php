@@ -32,7 +32,7 @@ class Engine
         $lights = array();
         foreach ($states as $state) {
             
-            $beaconId = $state['beacon'];
+            $beaconId = $state['id'];
             
             if (isset($this->mapping[$beaconId])) {
                 
