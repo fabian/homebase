@@ -7,9 +7,9 @@ class Engine
     const STATE_INSIDE = 'inside';
 
     private $mapping = array(
-        'B9407F30-F5F8-466E-AFF9-25556B57FE6D.9657.15660' => array('8'),
-        'B9407F30-F5F8-466E-AFF9-25556B57FE6D.21023.64576' => array('6', '7', '2', '3', '4'),
-        'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF.0.65535' => array('1', '5', '4', '3', '2'),
+        '1' => array('8'),
+        '2' => array('6', '7', '2', '3', '4'),
+        '3' => array('1', '5', '4', '3', '2'),
     );
 
     protected $beacons;
