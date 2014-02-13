@@ -50,6 +50,7 @@
 
             <footer>
                 <hr/>
+                <p>{% if app.request.user %}Logged in as {{ app.request.user }}.{% endif %}</p>
             </footer>
         </div>
 
