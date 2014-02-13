@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Authorize Client</h1>
+</div>
+<p>The external application <strong>{{ client.name }}</strong> would like to access Homebase.</p>
+<p>After allowing access the external application has permission to submit beacon data.</p>
+<form method="post" action="{{ path('authorize') }}" class="col-extended">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="response_type" value="{{ response_type }}">
+    <input type="hidden" name="state" value="{{ state }}">
+
+    <button type="submit" name="allow" class="btn btn-success">Allow access</button>
+    <button type="submit" name="deny" class="btn btn-link">Deny request</button>
+</form>
+{%  endblock %}

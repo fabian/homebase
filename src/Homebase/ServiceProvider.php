@@ -41,6 +41,12 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
+        $app['oauth'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Service\OAuth(
+                $app['db']
+            );
+        });
+
         $app['beacons'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Beacons(
                 $app['db']
@@ -80,6 +86,13 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['setup.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\SetupController(
                 $app['twig']
+            );
+        });
+
+        $app['oauth.controller'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Controller\OAuthController(
+                $app['twig'],
+                $app['oauth']
             );
         });
 
