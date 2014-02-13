@@ -24,8 +24,8 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers->get('/oauth/authorize/', 'oauth.controller:authorizeAction')->bind('authorize');
         $controllers->post('/oauth/authorize/', 'oauth.controller:authorizePostAction');
         $controllers->get('/beacons/{uuid}/{major}/{minor}/', 'beacons.controller:getBeacon');
-        $controllers->post('/beacons/state/', 'beacons.controller:addState');
-        $controllers->post('/beacons/proximity/', 'beacons.controller:addProximity');
+        $controllers->post('/api/beacons/state/', 'beacons.controller:addState');
+        $controllers->post('/api/beacons/proximity/', 'beacons.controller:addProximity');
 
         return $controllers;
     }

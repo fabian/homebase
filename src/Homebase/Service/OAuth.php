@@ -30,4 +30,13 @@ class OAuth
 
         return $client;
     }
+
+    public function getAccessToken($accessToken)
+    {
+        $sql = 'SELECT * FROM `oauth_tokens` WHERE `access_token` = ?';
+
+        $token = $this->database->fetchAssoc($sql, array($accessToken));
+
+        return $token;
+    }
 }

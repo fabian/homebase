@@ -99,7 +99,8 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['beacons.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\BeaconsController(
                 $app['beacons'],
-                $app['engine']
+                $app['engine'],
+                $app['oauth']
             );
         });
     }
