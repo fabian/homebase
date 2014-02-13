@@ -34,9 +34,9 @@ class Engine
             
             $beaconId = $state['beacon'];
             
-            if (isset($this->mapping[$beacon])) {
+            if (isset($this->mapping[$beaconId])) {
                 
-                foreach ($this->mapping[$beacon] as $light) {
+                foreach ($this->mapping[$beaconId] as $light) {
                     
                     if ($state['state'] == self::STATE_INSIDE) {
                         
