@@ -8,8 +8,7 @@ class Engine
 
     private $mapping = array(
         '1' => array('8'),
-        '2' => array('6', '7', '2', '3', '4'),
-        '3' => array('1', '5', '4', '3', '2'),
+        '2' => array('1', '5', '6', '7', '2', '3', '4'),
     );
 
     protected $beacons;
