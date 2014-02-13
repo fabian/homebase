@@ -75,10 +75,10 @@ class BeaconsController
         return new JsonResponse($beacon);
     }
 
-    protected function checkAccessToken($accessToken)
+    protected function checkAccessToken($token)
     {
-        $token = $this->oauth->getAccessToken($accessToken);
-        if (!$token) {
+        $accessToken = $this->oauth->getAccessToken($token);
+        if (!$accessToken) {
             throw new AccessDeniedHttpException('Invalid or missing access token');
         }
     }
