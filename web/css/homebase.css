@@ -6,6 +6,15 @@
     font-weight: normal;
 }
 
+.col-extended {
+    padding-top: 20px;
+}
+
+.btn-extended {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
 #beacon {
     position: relative;
 }
