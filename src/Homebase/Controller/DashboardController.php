@@ -32,7 +32,7 @@ class DashboardController
 
     public function eventsAction()
     {
-        $from = new \DateTime('-59 minutes 59 seconds');
+        $from = new \DateTime('-19 minutes 59 seconds');
         $to = new \DateTime('now');
         $limit = 5000;
 
