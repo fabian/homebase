@@ -5,9 +5,9 @@ namespace Homebase\Service;
 class RemoteHue
 {
     protected $bridgeId;
-    
+
     protected $accessToken;
-    
+
     protected $client;
 
     public function __construct($client, $bridgeId, $accessToken)
@@ -17,12 +17,29 @@ class RemoteHue
         $this->accessToken = $accessToken;
     }
 
-    public function setLightState($lightId, $state)
+    public function sendMessage($message)
     {
         $params = array(
             'token' => $this->accessToken,
         );
-        
+
+        $data = array(
+            'clipmessage' => json_encode($message)
+        );
+
+        $request = $this->client->post('sendmessage', array(), $data,  array('query' => $params));
+
+        // send request
+        $response = $request->send();
+
+        // parse response
+        $data = $response->json();
+
+        return $data;
+    }
+
+    public function setLightState($lightId, $state)
+    {
         $message = array(
             'bridgeId' => $this->bridgeId,
             'clipCommand' => array(
@@ -31,19 +48,25 @@ class RemoteHue
                 'body' => $state,
             )
         );
-        
-        $data = array(
-            'clipmessage' => json_encode($message)
+
+        return $this->sendMessage($message);
+    }
+
+    public function getBridgeInfo()
+    {
+        $params = array(
+            'token' => $this->accessToken,
+            'bridgeid' => $this->bridgeId,
         );
-        
-        $request = $this->client->post('sendmessage', array(), $data,  array('query' => $params));
-        
+
+        $request = $this->client->get('getbridge', array(), array('query' => $params));
+
         // send request
         $response = $request->send();
-        
+
         // parse response
         $data = $response->json();
-        
+
         return $data;
     }
 }

@@ -85,7 +85,10 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
 
         $app['setup.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\SetupController(
-                $app['twig']
+                $app['twig'],
+                $app['beacons'],
+                $app['remotehue'],
+                $app['url_generator']
             );
         });
 

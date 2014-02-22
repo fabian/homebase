@@ -5,4 +5,52 @@
     <h1>Setup</h1>
 </div>
 
+{% if message %}
+<div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+<form role="form" method="post" action="{{ path('setup') }}">
+
+<div class="row">
+    {% for beacon in beacons %}
+        {% if beacon.active %}
+            <div class="col-md-4">
+                <div class="page-header">
+                    <h2>⬢ {{ beacon.name }} <button type="submit" class="btn btn-link pull-right" name="hide[{{ beacon.id }}]">Hide Beacon</button></h2>
+                </div>
+                {% for id, light in lights %}
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="mapping[{{ beacon.id }}][{{ id }}]" value="1"{% if mapping[beacon.id][id] is defined %} checked{% endif %}>
+                        {{ light.name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<hr>
+
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Save settings</button>
+</div>
+
+<div class="page-header">
+    <h3>Hidden Beacons</h3>
+</div>
+
+<ul class="list-unstyled">
+{% for beacon in beacons %}
+    {% if not beacon.active %}
+        <li>
+            {{ beacon.name }} <button type="submit" class="btn btn-link" name="show[{{ beacon.id }}]">Show</button>
+        </li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+</form>
+
 {%  endblock %}
