@@ -65,30 +65,35 @@ class Beacons
         return $beacon;
     }
 
-    public function saveMapping($mapping, $user)
+    public function deleteMappings($user)
     {
         // clear old values
-        $sql = 'DELETE FROM `beacons_mapping` WHERE `user` = ? OR `user` IS NULL';
+        $sql = 'DELETE FROM `beacons_mappings` WHERE `user` = ? OR `user` IS NULL';
 
         $this->database->executeUpdate($sql, array($user));
-
-        // store new values
-        $sql = 'INSERT INTO `beacons_mapping` (`beacon`, `light`, `user`) VALUES (?, ?, ?)';
-
-        foreach ($mapping as $beacon => $light) {
-
-            foreach ($light as $lightId => $true) {
-
-                $result = $this->database->executeUpdate($sql, array($beacon, $lightId, $user));
-            }
-        }
     }
 
-    public function getMapping($user)
+    public function saveMapping($beacon, $light, $user)
     {
-        $sql = 'SELECT * FROM `beacons_mapping` WHERE `user` = ? OR `user` IS NULL';
+        $sql = 'INSERT INTO `beacons_mappings` (`beacon`, `light`, `user`) VALUES (?, ?, ?)';
+
+        $result = $this->database->executeUpdate($sql, array($beacon, $light, $user));
+    }
+
+    public function getUserMappings($user)
+    {
+        $sql = 'SELECT * FROM `beacons_mappings` WHERE `user` = ? OR `user` IS NULL';
 
         $result = $this->database->executeQuery($sql, array($user));
+
+        return $result->fetchAll();
+    }
+
+    public function getMappings()
+    {
+        $sql = 'SELECT * FROM `beacons_mappings`';
+
+        $result = $this->database->executeQuery($sql);
 
         return $result->fetchAll();
     }

@@ -6,11 +6,6 @@ class Engine
 {
     const STATE_INSIDE = 'inside';
 
-    private $mapping = array(
-        '1' => array('8'),
-        '2' => array('1', '5', '6', '7', '2', '3', '4'),
-    );
-
     protected $beacons;
 
     protected $remoteHue;
@@ -27,22 +22,31 @@ class Engine
     public function run()
     {
         $states = $this->beacons->getLatestStates();
+        $mappings = $this->beacons->getMappings();
+
+        $mappingGrouped = array();
+        foreach ($mappings as $mapping) {
+            if (!isset($mappingGrouped[$mapping['beacon']])) {
+                $mappingGrouped[$mapping['beacon']] = array();
+            }
+            $mappingGrouped[$mapping['beacon']][$mapping['light']] = true;
+        }
 
         $lights = array();
         foreach ($states as $state) {
-            
+
             $beaconId = $state['id'];
-            
-            if (isset($this->mapping[$beaconId])) {
-                
-                foreach ($this->mapping[$beaconId] as $light) {
-                    
+
+            if (isset($mappingGrouped[$beaconId])) {
+
+                foreach ($mappingGrouped[$beaconId] as $light => $true) {
+
                     if ($state['state'] == self::STATE_INSIDE) {
-                        
+
                         $lights[$light] = true;
-                        
+
                     } else {
-                        
+
                         // don't override value
                         if (!isset($lights[$light])) {
                             $lights[$light] = false;
@@ -51,7 +55,7 @@ class Engine
                 }
             }
         }
-        
+
         foreach ($lights as $light => $on) {
 
             if ($on) {

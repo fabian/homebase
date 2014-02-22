@@ -33,7 +33,7 @@ class SetupController
 
         $beacons = $this->beacons->getBeacons();
         $info = $this->remoteHue->getBridgeInfo();
-        $mapping = $this->beacons->getMapping($user);
+        $mapping = $this->beacons->getUserMappings($user);
 
         $mappingGrouped = array();
         foreach ($mapping as $map) {
@@ -79,7 +79,15 @@ class SetupController
             $mapping = $request->request->get('mapping');
             $user = $request->getUser();
 
-            $this->beacons->saveMapping($mapping, $user);
+            // clear old values
+            $this->beacons->deleteMappings($user);
+
+            // save new values
+            foreach ($mapping as $beacon => $lights) {
+                foreach ($lights as $light => $true) {
+                    $this->beacons->saveMapping($beacon, $light, $user);
+                }
+            }
 
             return new RedirectResponse($this->url->generate('setup', array('message' => 'Setup was saved successfully.')));
         }
