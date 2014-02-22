@@ -16,7 +16,12 @@
         {% if beacon.active %}
             <div class="col-md-4">
                 <div class="page-header">
-                    <h2>⬢ {{ beacon.name }} <button type="submit" class="btn btn-link pull-right" name="hide[{{ beacon.id }}]">Hide Beacon</button></h2>
+                    <h2>
+                        ⬢ {{ beacon.name }}
+                        <button type="submit" class="btn btn-link pull-right" name="hide[{{ beacon.id }}]">
+                            Hide Beacon
+                        </button>
+                    </h2>
                 </div>
                 {% for id, light in lights %}
                 <div class="checkbox">
@@ -45,7 +50,9 @@
 {% for beacon in beacons %}
     {% if not beacon.active %}
         <li>
-            {{ beacon.name }} <button type="submit" class="btn btn-link" name="show[{{ beacon.id }}]">Show</button>
+            {{ beacon.name }}
+            <small class="text-muted">{{ beacon.uuid }} {{ beacon.major }} {{ beacon.minor }}</small>
+            <button type="submit" class="btn btn-link" name="show[{{ beacon.id }}]">Show</button>
         </li>
     {% endif %}
 {% endfor %}
