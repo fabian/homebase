@@ -1,5 +1,10 @@
 $(function () {
 
+    $('.time').each(function (i, el) {
+        var $el = $(el);
+        $el.text(moment($el.text()).fromNow());
+    });
+
     d3.json('dashboard/events/', function(error, response) {
         
         var format = d3.time.format("%Y-%m-%d %H:%M:%S");

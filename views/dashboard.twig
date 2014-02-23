@@ -13,16 +13,39 @@
 <div class="row">
     <div class="col-md-4">
         <h3>Events</h3>
-        {% for state in states %}
-            <div class="row">
-                <div class="col-xs-6">
-                    <p><span class="text-muted">{{ state.recorded }}</span></p>
+        <div class="dashboard-events">
+            {% for state in states %}
+                <div class="row">
+                    {% if state.state == "inside" %}
+                        <div class="col-xs-2">
+                            <p class="text-center">
+                                <span class="event-icon event-icon-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-xs-6">
+                            <p class="event-text">Entered inside {{ state.beacon_name }}</p>
+                        </div>
+                    {% endif %}
+                    {% if state.state == "outside" %}
+                        <div class="col-xs-2">
+                            <p class="text-center">
+                                <span class="event-icon event-icon-default">
+                                    <span class="glyphicon glyphicon-ban-circle"></span>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-xs-6">
+                            <p class="event-text">Stepped outside {{ state.beacon_name }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="col-xs-4">
+                        <p class="event-text"><span class="text-muted time">{{ state.recorded }}</span></p>
+                    </div>
                 </div>
-                <div class="col-xs-6">
-                    <p>{{ state.state|capitalize }} {{ state.beacon }}</p>
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
     <div class="col-md-8">
         <h3>RSSI</h3>
@@ -34,5 +57,6 @@
 {%  endblock %}
 
 {%  block footer %}
+<script src="{{ app.request.baseUrl }}/components/momentjs/moment.js"></script>
 <script src="{{ app.request.baseUrl }}/js/dashboard.js"></script>
 {% endblock %}

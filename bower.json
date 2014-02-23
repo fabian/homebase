@@ -2,6 +2,7 @@
   "name": "homebase",
   "dependencies": {
     "bootstrap": "~3.1",
-    "d3": "~3.4.1"
+    "d3": "~3.4.1",
+    "momentjs": "~2.5.1"
   }
 }

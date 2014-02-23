@@ -15,6 +15,52 @@
     padding-right: 18px;
 }
 
+.dashboard-events {
+    position: relative;
+}
+
+.dashboard-events:before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 17px;
+    width: 2px;
+    background-color: #f3f3f3;
+    z-index: -1;
+}
+
+.event-icon {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    border-radius: 2em;
+    text-align: center;
+    vertical-align: baseline;
+    padding-top: 4px;
+}
+
+.event-icon-default {
+    background-color: #f3f3f3;
+    color: #999;
+}
+
+.event-icon-success {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.event-icon-warning {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.event-text {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 #beacon {
     position: relative;
 }

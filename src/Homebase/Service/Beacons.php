@@ -107,7 +107,12 @@ class Beacons
 
     public function getStates($from, $to, $limit = 10)
     {
-        $sql = 'SELECT * FROM `beacons_states` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC LIMIT ?';
+        $sql = 'SELECT bs.id, bs.beacon, bs.state, bs.recorded, b.name AS `beacon_name` 
+            FROM `beacons_states` bs
+            INNER JOIN `beacons` b ON b.id = bs.beacon 
+            WHERE `recorded` >= ? AND `recorded` < ? 
+            ORDER BY `recorded` DESC 
+            LIMIT ?';
 
         $result = $this->database->executeQuery($sql, array($from, $to, $limit), array(\PDO::PARAM_STR, \PDO::PARAM_STR, \PDO::PARAM_INT));
 
