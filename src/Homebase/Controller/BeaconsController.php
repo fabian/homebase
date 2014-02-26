@@ -30,6 +30,7 @@ class BeaconsController
         $accuracy = $request->get('accuracy', 0);
         $proximity = $request->get('proximity', '');
         $rssi = $request->get('rssi', 0);
+        $occurred = $request->get('occurred');
 
         $this->checkAccessToken($accessToken);
 
@@ -39,7 +40,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi);
+        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi, $occurred);
 
         return new JsonResponse();
     }
@@ -51,6 +52,7 @@ class BeaconsController
         $major = $request->get('major', '');
         $minor = $request->get('minor', '');
         $state = $request->get('state', '');
+        $occurred = $request->get('occurred');
 
         $this->checkAccessToken($accessToken);
 
@@ -60,7 +62,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addState($beacon['id'], $state);
+        $this->beacons->addState($beacon['id'], $state, $occurred);
 
         // run engine
         $this->engine->run();

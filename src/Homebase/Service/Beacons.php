@@ -11,11 +11,11 @@ class Beacons
         $this->database = $database;
     }
 
-    public function addProximity($beacon, $accuracy, $proximity, $rssi)
+    public function addProximity($beacon, $accuracy, $proximity, $rssi, $occurred)
     {
-        $sql = 'INSERT INTO `beacons_proximities` (`beacon`, `accuracy`, `proximity`, `rssi`, `recorded`) VALUES (?, ?, ?, ?, NOW())';
+        $sql = 'INSERT INTO `beacons_proximities` (`beacon`, `accuracy`, `proximity`, `rssi`, `occurred`, `recorded`) VALUES (?, ?, ?, ?, ?, NOW())';
 
-        $result = $this->database->executeUpdate($sql, array($beacon, $accuracy, $proximity, $rssi));
+        $result = $this->database->executeUpdate($sql, array($beacon, $accuracy, $proximity, $rssi, $occurred));
     }
 
     public function addBeacon($uuid, $major, $minor, $name = '', $active = false)
@@ -98,11 +98,11 @@ class Beacons
         return $result->fetchAll();
     }
 
-    public function addState($beacon, $state)
+    public function addState($beacon, $state, $occurred)
     {
-        $sql = 'INSERT INTO `beacons_states` (`beacon`, `state`, `recorded`) VALUES (?, ?, NOW())';
+        $sql = 'INSERT INTO `beacons_states` (`beacon`, `state`, `occurred`, `recorded`) VALUES (?, ?, ?, NOW())';
 
-        $result = $this->database->executeUpdate($sql, array($beacon, $state));
+        $result = $this->database->executeUpdate($sql, array($beacon, $state, $occurred));
     }
 
     public function getStates($from, $to, $limit = 10)
