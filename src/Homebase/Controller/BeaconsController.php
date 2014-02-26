@@ -32,6 +32,9 @@ class BeaconsController
         $rssi = $request->get('rssi', 0);
         $occurred = $request->get('occurred');
 
+        $occurred = new \DateTime($occured);
+        $occurred = $occurred->format('Y-m-d H:i:s');
+
         $this->checkAccessToken($accessToken);
 
         // make sure beacon exists
@@ -53,6 +56,9 @@ class BeaconsController
         $minor = $request->get('minor', '');
         $state = $request->get('state', '');
         $occurred = $request->get('occurred');
+
+        $occurred = new \DateTime($occured);
+        $occurred = $occurred->format('Y-m-d H:i:s');
 
         $this->checkAccessToken($accessToken);
 
