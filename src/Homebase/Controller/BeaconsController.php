@@ -33,7 +33,7 @@ class BeaconsController
         $occurred = $request->get('occurred');
 
         $occurredDateTime = new \DateTime($occurred);
-        $occurred = $occurredDateTime>format('Y-m-d H:i:s');
+        $occurred = $occurredDateTime->format('Y-m-d H:i:s');
         $occurredMicro = $occurredDateTime->format('u');
 
         $this->checkAccessToken($accessToken);
@@ -59,7 +59,7 @@ class BeaconsController
         $occurred = $request->get('occurred');
 
         $occurredDateTime = new \DateTime($occurred);
-        $occurred = $occurredDateTime>format('Y-m-d H:i:s');
+        $occurred = $occurredDateTime->format('Y-m-d H:i:s');
         $occurredMicro = $occurredDateTime->format('u');
 
         $this->checkAccessToken($accessToken);
