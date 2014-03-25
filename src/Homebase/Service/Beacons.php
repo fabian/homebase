@@ -100,7 +100,7 @@ class Beacons
 
     public function addState($beacon, $state, $occurred, $occurredMicro)
     {
-        $sql = 'INSERT INTO `beacons_states` (`beacon`, `state`, `occurred`, `occurred_micro`, `recorded`) VALUES (?, ?, ?, NOW())';
+        $sql = 'INSERT INTO `beacons_states` (`beacon`, `state`, `occurred`, `occurred_micro`, `recorded`) VALUES (?, ?, ?, ?, NOW())';
 
         $result = $this->database->executeUpdate($sql, array($beacon, $state, $occurred, $occurredMicro));
     }
