@@ -32,8 +32,9 @@ class BeaconsController
         $rssi = $request->get('rssi', 0);
         $occurred = $request->get('occurred');
 
-        $occurred = new \DateTime($occured);
-        $occurred = $occurred->format('Y-m-d H:i:s');
+        $occurredDateTime = new \DateTime($occurred);
+        $occurred = $occurredDateTime>format('Y-m-d H:i:s');
+        $occurredMicro = $occurredDateTime->format('u');
 
         $this->checkAccessToken($accessToken);
 
@@ -43,7 +44,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi, $occurred);
+        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi, $occurred, $occurredMicro);
 
         return new JsonResponse();
     }
@@ -57,8 +58,9 @@ class BeaconsController
         $state = $request->get('state', '');
         $occurred = $request->get('occurred');
 
-        $occurred = new \DateTime($occured);
-        $occurred = $occurred->format('Y-m-d H:i:s');
+        $occurredDateTime = new \DateTime($occurred);
+        $occurred = $occurredDateTime>format('Y-m-d H:i:s');
+        $occurredMicro = $occurredDateTime->format('u');
 
         $this->checkAccessToken($accessToken);
 
@@ -68,7 +70,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addState($beacon['id'], $state, $occurred);
+        $this->beacons->addState($beacon['id'], $state, $occurred, $occurredMicro);
 
         // run engine
         $this->engine->run();

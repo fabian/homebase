@@ -11,11 +11,11 @@ class Beacons
         $this->database = $database;
     }
 
-    public function addProximity($beacon, $accuracy, $proximity, $rssi, $occurred)
+    public function addProximity($beacon, $accuracy, $proximity, $rssi, $occurred, $occurredMicro)
     {
-        $sql = 'INSERT INTO `beacons_proximities` (`beacon`, `accuracy`, `proximity`, `rssi`, `occurred`, `recorded`) VALUES (?, ?, ?, ?, ?, NOW())';
+        $sql = 'INSERT INTO `beacons_proximities` (`beacon`, `accuracy`, `proximity`, `rssi`, `occurred`, `occurred_micro`, `recorded`) VALUES (?, ?, ?, ?, ?, ?, NOW())';
 
-        $result = $this->database->executeUpdate($sql, array($beacon, $accuracy, $proximity, $rssi, $occurred));
+        $result = $this->database->executeUpdate($sql, array($beacon, $accuracy, $proximity, $rssi, $occurred, $occurredMicro));
     }
 
     public function addBeacon($uuid, $major, $minor, $name = '', $active = false)
@@ -98,11 +98,11 @@ class Beacons
         return $result->fetchAll();
     }
 
-    public function addState($beacon, $state, $occurred)
+    public function addState($beacon, $state, $occurred, $occurredMicro)
     {
-        $sql = 'INSERT INTO `beacons_states` (`beacon`, `state`, `occurred`, `recorded`) VALUES (?, ?, ?, NOW())';
+        $sql = 'INSERT INTO `beacons_states` (`beacon`, `state`, `occurred`, `occurred_micro`, `recorded`) VALUES (?, ?, ?, NOW())';
 
-        $result = $this->database->executeUpdate($sql, array($beacon, $state, $occurred));
+        $result = $this->database->executeUpdate($sql, array($beacon, $state, $occurred, $occurredMicro));
     }
 
     public function getStates($from, $to, $limit = 10)
@@ -111,7 +111,7 @@ class Beacons
             FROM `beacons_states` bs
             INNER JOIN `beacons` b ON b.id = bs.beacon 
             WHERE `recorded` >= ? AND `recorded` < ? 
-            ORDER BY `recorded` DESC 
+            ORDER BY `occurred` DESC, `occurred_micro` DESC 
             LIMIT ?';
 
         $result = $this->database->executeQuery($sql, array($from, $to, $limit), array(\PDO::PARAM_STR, \PDO::PARAM_STR, \PDO::PARAM_INT));
@@ -125,7 +125,7 @@ class Beacons
             (SELECT `state`
                 FROM `beacons_states` bs
                 WHERE bs.beacon = b.id
-                ORDER BY `recorded` DESC
+                ORDER BY `occurred` DESC,  `occurred_micro` DESC
                 LIMIT 1) AS `state`
             FROM `beacons` b
             GROUP BY b.id';
