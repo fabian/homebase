@@ -21,6 +21,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers->get('/dashboard/proximities/', 'dashboard.controller:proximitiesAction');
         $controllers->get('/report/', 'report.controller:indexAction')->bind('report');
         $controllers->get('/report/day/{day}/', 'report.controller:dayAction');
+        $controllers->get('/report/measurements/', 'report.controller:measurementsAction');
         $controllers->get('/setup/', 'setup.controller:indexAction')->bind('setup');
         $controllers->post('/setup/', 'setup.controller:saveAction');
         $controllers->get('/oauth/authorize/', 'oauth.controller:authorizeAction')->bind('authorize');

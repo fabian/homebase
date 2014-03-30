@@ -12,9 +12,12 @@ class ReportController
 
     protected $log;
 
-    public function __construct($twig, $log) {
+    protected $beacons;
+
+    public function __construct($twig, $log, $beacons) {
         $this->twig = $twig;
         $this->log = $log;
+        $this->beacons = $beacons;
     }
 
     public function indexAction()
@@ -46,6 +49,54 @@ class ReportController
                 $element['lights'] = count($hours[$hour]);
             }
             $data[] = $element;
+        }
+
+        return new JsonResponse(array('data' => $data));
+    }
+
+    public function measurementsAction()
+    {
+        $beacon = 2;
+        $from = date('c', strtotime('-6 hours'));
+        $measurements = $this->beacons->getMeasurements($beacon, $from);
+
+        $positions = array();
+        foreach ($measurements as $row) {
+            $x = $row['position_x'];
+            $y = $row['position_y'];
+            if (!isset($positions[$x])) {
+                $positions[$x] = array();
+            }
+            if (!isset($positions[$x][$y])) {
+                $positions[$x][$y] = array();
+            }
+            $positions[$x][$y][] = $row['rssi'];
+        }
+
+        $data = array();
+        foreach ($positions as $x => $position) {
+            foreach ($position as $y => $rssi) {
+
+                //average
+                $avg = array_sum($rssi) / count($rssi);
+
+                // median
+                $median = $rssi[floor(count($rssi)/2)];
+
+                // mode
+                $values = array_count_values($rssi); 
+                arsort($values);
+                foreach ($values as $k => $v) {
+                    $mode = $k;
+                    break;
+                } 
+
+                $data[] = array(
+                    'x' => $x,
+                    'y' => $y,
+                    'rssi' => $median,
+                );
+            }
         }
 
         return new JsonResponse(array('data' => $data));

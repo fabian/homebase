@@ -117,6 +117,22 @@
     fill: #777;
 }
 
+#measurements {
+    position: relative;
+    padding-top: 20px;
+}
+
+#floor-1 {
+    background-image: url('../images/floor-1.png');
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 450px;
+    height: 300px;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
 footer {
     padding: 60px 0 40px 0;
 }
