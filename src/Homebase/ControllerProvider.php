@@ -16,6 +16,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', 'dashboard.controller:indexAction')->bind('dashboard');
+        $controllers->post('/dashboard/mode/', 'dashboard.controller:modeAction')->bind('mode');
         $controllers->get('/dashboard/events/', 'dashboard.controller:eventsAction');
         $controllers->get('/dashboard/logs/', 'dashboard.controller:logsAction');
         $controllers->get('/dashboard/proximities/', 'dashboard.controller:proximitiesAction');

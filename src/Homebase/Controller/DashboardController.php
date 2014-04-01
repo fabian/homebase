@@ -2,9 +2,12 @@
 
 namespace Homebase\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Homebase\Service\Config;
 
 class DashboardController
 {
@@ -14,10 +17,16 @@ class DashboardController
 
     protected $beacons;
 
-    public function __construct($twig, $log, $beacons) {
+    protected $config;
+
+    protected $url;
+
+    public function __construct($twig, $log, $beacons, $config, $url) {
         $this->twig = $twig;
         $this->log = $log;
         $this->beacons = $beacons;
+        $this->config = $config;
+        $this->url = $url;
     }
 
     public function indexAction()
@@ -26,8 +35,21 @@ class DashboardController
         $to = new \DateTime('now');
 
         $states = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
+        $mode = $this->config->get(Config::ENGINE_MODE);
 
-        return $this->twig->render('dashboard.twig', array('states' => $states));
+        return $this->twig->render('dashboard.twig', array(
+            'states' => $states,
+            'mode' => $mode,
+        ));
+    }
+
+    public function modeAction(Request $request)
+    {
+        $mode = $request->get('mode');
+
+        $this->config->set(Config::ENGINE_MODE, $mode);
+
+        return new RedirectResponse($this->url->generate('dashboard'));
     }
 
     public function eventsAction()

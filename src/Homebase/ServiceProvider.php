@@ -68,11 +68,19 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
+        $app['config'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Service\Config(
+                $app['db']
+            );
+        });
+
         $app['dashboard.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\DashboardController(
                 $app['twig'],
                 $app['log'],
-                $app['beacons']
+                $app['beacons'],
+                $app['config'],
+                $app['url_generator']
             );
         });
 

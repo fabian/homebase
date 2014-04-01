@@ -4,11 +4,42 @@
 <div class="page-header">
     <h1>Dashboard</h1>
 </div>
-<p>Light usage over the past 30 days:</p>
-<div id="graph" class="graph-stream-usage"></div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-xs-6">
+                <h1>3</h1>
+                <p>Beacons</p>
+            </div>
+            <div class="col-xs-6">
+                <h1>7</h1>
+                <p>Lights</p>
+            </div>
+        </div>
+        <form action="{{ url('mode') }}" method="post">
+            <br/>
+            {% if mode == "manual" %}
+                <input type="hidden" name="mode" value="automatic">
+                <button id="engine-mode" type="submit" class="btn btn-danger">Stop Engine</button>
+            {% else %}
+                <input type="hidden" name="mode" value="manual">
+                <button id="engine-mode" type="submit" class="btn btn-success">Start Engine</button>
+            {% endif %}
+            <br/>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <p>Light usage over the past 30 days:</p>
+        <div id="graph" class="graph-stream-usage"></div>
+    </div>
+</div>
 <hr/>
-<p>Events over the past 20 minutes:</p>
-<div id="events" class="graph-events"></div>
+<div class="row">
+    <div class="col-md-12">
+        <p>Events over the past 20 minutes:</p>
+        <div id="events" class="graph-events"></div>
+    </div>
+</div>
 <hr/>
 <div class="row">
     <div class="col-md-4">

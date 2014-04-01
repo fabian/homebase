@@ -12,15 +12,23 @@ class Engine
 
     protected $queue;
 
-    public function __construct($beacons, $remoteHue, $queue)
+    protected $config;
+
+    public function __construct($beacons, $remoteHue, $queue, $config)
     {
         $this->beacons = $beacons;
         $this->remoteHue = $remoteHue;
         $this->queue = $queue;
+        $this->config = $config;
     }
 
     public function run()
     {
+        if ($this->config->get(Config::ENGINE_MODE) == Config::ENGINE_MODE_MANUAL) {
+            // don't run engine
+            return;
+        }
+
         $states = $this->beacons->getLatestStates();
         $mappings = $this->beacons->getMappings();
 
