@@ -20,10 +20,10 @@
             <br/>
             {% if mode == "manual" %}
                 <input type="hidden" name="mode" value="automatic">
-                <button id="engine-mode" type="submit" class="btn btn-danger">Stop Engine</button>
+                <button id="engine-mode" type="submit" class="btn btn-success">Start Engine</button>
             {% else %}
                 <input type="hidden" name="mode" value="manual">
-                <button id="engine-mode" type="submit" class="btn btn-success">Start Engine</button>
+                <button id="engine-mode" type="submit" class="btn btn-danger">Stop Engine</button>
             {% endif %}
             <br/>
         </form>

@@ -25,7 +25,7 @@ class Delayed
         foreach ($lights as $light) {
 
             // only switch lights off if engine is running
-            if ($this->config->get(Config::ENGINE_MODE) == Config::ENGINE_MODE_AUTOMATIC) {
+            if ($this->config->get(Config::ENGINE_MODE) != Config::ENGINE_MODE_MANUAL) {
 
                 $this->remoteHue->setLightState($light['light'], array('on' => false));
             }
