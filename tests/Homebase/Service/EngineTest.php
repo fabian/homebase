@@ -17,11 +17,21 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->queue = $this->getMockBuilder('Homebase\Service\Queue')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->engine = new Engine($this->beacons, $this->remoteHue, $this->queue);
+        $this->config = $this->getMockBuilder('Homebase\Service\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->engine = new Engine($this->beacons, $this->remoteHue, $this->queue, $this->config);
     }
 
     public function testRun()
     {
+        $this->config->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->equalTo('engine_mode')
+            )
+            ->will($this->returnValue('automatic'));
+
         $this->beacons->expects($this->once())
             ->method('getLatestStates')
             ->will($this->returnValue(array(
@@ -54,6 +64,27 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo('2')
             );
+
+        $this->engine->run();
+    }
+
+    public function testNotRun()
+    {
+        $this->config->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->equalTo('engine_mode')
+            )
+            ->will($this->returnValue('manual'));
+
+        $this->beacons->expects($this->never())
+            ->method($this->anything());
+
+        $this->queue->expects($this->never())
+            ->method($this->anything());
+
+        $this->remoteHue->expects($this->never())
+            ->method($this->anything());
 
         $this->engine->run();
     }
