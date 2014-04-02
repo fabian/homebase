@@ -57,7 +57,8 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             return new \Homebase\Service\Engine(
                 $app['beacons'],
                 $app['remotehue'],
-                $app['queue']
+                $app['queue'],
+                $app['config']
             );
         });
 
