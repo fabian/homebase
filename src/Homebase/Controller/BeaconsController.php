@@ -11,13 +11,10 @@ class BeaconsController
 {
     protected $beacons;
 
-    protected $engine;
-
     protected $oauth;
 
-    public function __construct($beacons, $engine, $oauth) {
+    public function __construct($beacons, $oauth) {
         $this->beacons = $beacons;
-        $this->engine = $engine;
         $this->oauth = $oauth;
     }
 
@@ -73,9 +70,6 @@ class BeaconsController
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
         $this->beacons->addState($beacon['id'], $state, $occurred, $occurredMicro);
-
-        // run engine
-        $this->engine->run();
 
         return new JsonResponse();
     }

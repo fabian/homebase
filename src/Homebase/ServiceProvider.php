@@ -35,12 +35,6 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
-        $app['queue'] = $app->share(function() use ($app, $config) {
-            return new \Homebase\Service\Queue(
-                $app['db']
-            );
-        });
-
         $app['oauth'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\OAuth(
                 $app['db']
@@ -57,15 +51,16 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             return new \Homebase\Service\Engine(
                 $app['beacons'],
                 $app['remotehue'],
-                $app['queue'],
+                $app['lights'],
                 $app['config']
             );
         });
 
         $app['delayed'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Delayed(
-                $app['queue'],
-                $app['remotehue']
+                $app['lights'],
+                $app['remotehue'],
+                $app['config']
             );
         });
 
@@ -87,7 +82,6 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
                 $app['log'],
                 $app['beacons'],
                 $app['config'],
-                $app['engine'],
                 $app['lights'],
                 $app['url_generator']
             );
@@ -120,7 +114,6 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['beacons.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\BeaconsController(
                 $app['beacons'],
-                $app['engine'],
                 $app['oauth']
             );
         });

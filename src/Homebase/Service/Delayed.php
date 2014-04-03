@@ -4,15 +4,15 @@ namespace Homebase\Service;
 
 class Delayed
 {
-    protected $queue;
+    protected $lights;
 
     protected $remoteHue;
 
     protected $config;
 
-    public function __construct($queue, $remoteHue, $config)
+    public function __construct($lights, $remoteHue, $config)
     {
-        $this->queue = $queue;
+        $this->lights = $lights;
         $this->remoteHue = $remoteHue;
         $this->config = $config;
     }
@@ -20,7 +20,7 @@ class Delayed
     public function run()
     {
         $to = new \DateTime('-3 minute');
-        $lights = $this->queue->getLights($to->format('Y-m-d H:i:s'));
+        $lights = $this->lights->getQueuedActions(false, $to->format('Y-m-d H:i:s'));
 
         foreach ($lights as $light) {
 
@@ -31,7 +31,7 @@ class Delayed
             }
 
             // always remove light from queue
-            $this->queue->deleteLight($light['light']);
+            $this->lights->updateActions($light['light'], false, Lights::STATE_QUEUED, Lights::STATE_EXECUTED);
         }
     }
 }

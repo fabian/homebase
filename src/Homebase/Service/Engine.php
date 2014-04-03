@@ -10,15 +10,15 @@ class Engine
 
     protected $remoteHue;
 
-    protected $queue;
+    protected $lights;
 
     protected $config;
 
-    public function __construct($beacons, $remoteHue, $queue, $config)
+    public function __construct($beacons, $remoteHue, $lights, $config)
     {
         $this->beacons = $beacons;
         $this->remoteHue = $remoteHue;
-        $this->queue = $queue;
+        $this->lights = $lights;
         $this->config = $config;
     }
 
@@ -40,6 +40,12 @@ class Engine
             $mappingGrouped[$mapping['beacon']][$mapping['light']] = true;
         }
 
+        $actions = $this->lights->getLatestActions();
+        $actionsGrouped = array();
+        foreach ($actions as $action) {
+            $actionsGrouped[$action['light']] = $action['on'];
+        }
+
         $lights = array();
         foreach ($states as $state) {
 
@@ -57,7 +63,9 @@ class Engine
 
                         // don't override value
                         if (!isset($lights[$light])) {
+
                             $lights[$light] = false;
+
                         }
                     }
                 }
@@ -68,17 +76,32 @@ class Engine
 
             if ($on) {
 
-                // remove light from queue, avoid off
-                $this->queue->deleteLight($light);
+                // only switch on if not already switched on
+                if (!isset($actionsGrouped[$light]) || !$actionsGrouped[$light]) {
 
-                // switch light on
-                $this->remoteHue->setLightState($light, array('on' => $on));
+                    // remove light from queue, avoid off
+                    $this->lights->updateActions($light, false, Lights::STATE_QUEUED, Lights::STATE_CANCELLED);
+
+                    // add action to switch on
+                    $this->lights->addAction($light, $on);
+
+                    // switch light on
+                    $this->remoteHue->setLightState($light, array('on' => $on));
+
+                    // mark as executed
+                    $this->lights->updateActions($light, true, Lights::STATE_QUEUED, Lights::STATE_EXECUTED);
+
+                }
 
             } else {
 
-                // add light to queue for delayed off
-                $this->queue->addLight($light);
+                // only switch off if not already switched off
+                if (!isset($actionsGrouped[$light]) || $actionsGrouped[$light]) {
 
+                    // add queued off action
+                    $this->lights->addAction($light, $on);
+
+                }
             }
         }
     }
