@@ -31,6 +31,15 @@ class Lights
         $result = $this->database->executeUpdate($sql, array($newState, $light, $on, $state));
     }
 
+    public function getActions()
+    {
+        $sql = 'SELECT * FROM `lights_actions`';
+
+        $result = $this->database->fetchAll($sql);
+
+        return $result;
+    }
+
     public function getQueuedActions($on, $to)
     {
         $sql = 'SELECT * FROM `lights_actions` WHERE `on` = ? AND `state` = ? AND `created` < ? GROUP BY `light`';

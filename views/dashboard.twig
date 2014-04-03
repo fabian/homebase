@@ -50,8 +50,7 @@
                     <div class="col-xs-12">
                         <div class="dashboard-events-action">
                             <div class="row">
-                                {% if actions[state.id] is defined %}
-                                    {% for action in actions[state.id] %}
+                                    {% for action in actions %}
                                         {% if action.on %}
                                             <div class="col-xs-offset-1 col-xs-2">
                                                 <p class="text-center">
@@ -79,7 +78,7 @@
                                                     <p class="event-text">Swichted off light {{ action.light }}</p>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <p class="event-text"><span class="text-muted time">{{ action.created }}</span></p>
+                                                    <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
                                                 </div>
                                             {%  else %}
                                                 <div class="col-xs-offset-1 col-xs-2">
@@ -93,12 +92,11 @@
                                                     <p class="event-text">Switch off cancelled</p>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <p class="event-text"><span class="text-muted time">{{ action.created }}</span></p>
+                                                    <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
                                                 </div>
                                             {%  endif %}
                                         {%  endif %}
                                     {% endfor %}
-                                {%  endif %}
                             </div>
                         </div>
                     </div>

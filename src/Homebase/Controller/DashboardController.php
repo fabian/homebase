@@ -40,12 +40,7 @@ class DashboardController
         $states = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
         $mode = $this->config->get(Config::ENGINE_MODE);
 
-        $actions = $this->lights->getActions() as $action) {
-            if (!isset($actions[$action['beacons_state']])) {
-                $actions[$action['beacons_state']] = array();
-            }
-            $actions[$action['beacons_state']][] = $action;
-        }
+        $actions = $this->lights->getActions();
 
         return $this->twig->render('dashboard.twig', array(
             'states' => $states,
