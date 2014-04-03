@@ -81,6 +81,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
                 $app['log'],
                 $app['beacons'],
                 $app['config'],
+                $app['engine'],
                 $app['url_generator']
             );
         });

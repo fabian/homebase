@@ -19,13 +19,16 @@ class DashboardController
 
     protected $config;
 
+    protected $engine;
+
     protected $url;
 
-    public function __construct($twig, $log, $beacons, $config, $url) {
+    public function __construct($twig, $log, $beacons, $config, $engine, $url) {
         $this->twig = $twig;
         $this->log = $log;
         $this->beacons = $beacons;
         $this->config = $config;
+        $this->engine = $engine;
         $this->url = $url;
     }
 
@@ -48,6 +51,9 @@ class DashboardController
         $mode = $request->get('mode');
 
         $this->config->set(Config::ENGINE_MODE, $mode);
+
+        // run engine
+        $this->engine->run();
 
         return new RedirectResponse($this->url->generate('dashboard'));
     }
