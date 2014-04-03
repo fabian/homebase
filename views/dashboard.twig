@@ -47,6 +47,61 @@
         <div class="dashboard-events">
             {% for state in states %}
                 <div class="row">
+                    <div class="col-xs-12">
+                        <div class="dashboard-events-action">
+                            <div class="row">
+                                {% if actions[state.id] is defined %}
+                                    {% for action in actions[state.id] %}
+                                        {% if action.on %}
+                                            <div class="col-xs-offset-1 col-xs-2">
+                                                <p class="text-center">
+                                                    <span class="event-icon event-icon-warning">
+                                                        <span class="glyphicon glyphicon-certificate"></span>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <p class="event-text">Switched on light {{ action.light }}</p>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <p class="event-text"><span class="text-muted time">{{ action.created }}</span></p>
+                                            </div>
+                                        {% else %}
+                                            {% if action.state == "executed" %}
+                                                <div class="col-xs-offset-1 col-xs-2">
+                                                    <p class="text-center">
+                                                        <span class="event-icon event-icon-danger">
+                                                            <span class="glyphicon glyphicon-flash"></span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <p class="event-text">Swichted off light {{ action.light }}</p>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <p class="event-text"><span class="text-muted time">{{ action.created }}</span></p>
+                                                </div>
+                                            {%  else %}
+                                                <div class="col-xs-offset-1 col-xs-2">
+                                                    <p class="text-center">
+                                                        <span class="event-icon event-icon-default">
+                                                            <span class="glyphicon glyphicon-flash"></span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <p class="event-text">Switch off cancelled</p>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <p class="event-text"><span class="text-muted time">{{ action.created }}</span></p>
+                                                </div>
+                                            {%  endif %}
+                                        {%  endif %}
+                                    {% endfor %}
+                                {%  endif %}
+                            </div>
+                        </div>
+                    </div>
                     {% if state.state == "inside" %}
                         <div class="col-xs-2">
                             <p class="text-center">

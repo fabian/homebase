@@ -75,6 +75,12 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
+        $app['lights'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Service\Lights(
+                $app['db']
+            );
+        });
+
         $app['dashboard.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\DashboardController(
                 $app['twig'],
@@ -82,6 +88,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
                 $app['beacons'],
                 $app['config'],
                 $app['engine'],
+                $app['lights'],
                 $app['url_generator']
             );
         });

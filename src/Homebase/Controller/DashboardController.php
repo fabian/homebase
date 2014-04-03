@@ -21,14 +21,17 @@ class DashboardController
 
     protected $engine;
 
+    protected $lights;
+
     protected $url;
 
-    public function __construct($twig, $log, $beacons, $config, $engine, $url) {
+    public function __construct($twig, $log, $beacons, $config, $engine, $lights, $url) {
         $this->twig = $twig;
         $this->log = $log;
         $this->beacons = $beacons;
         $this->config = $config;
         $this->engine = $engine;
+        $this->lights = $lights;
         $this->url = $url;
     }
 
@@ -40,8 +43,17 @@ class DashboardController
         $states = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
         $mode = $this->config->get(Config::ENGINE_MODE);
 
+        $actions = array();
+        foreach ($this->lights->getActions() as $action) {
+            if (!isset($actions[$action['beacons_state']])) {
+                $actions[$action['beacons_state']] = array();
+            }
+            $actions[$action['beacons_state']][] = $action;
+        }
+
         return $this->twig->render('dashboard.twig', array(
             'states' => $states,
+            'actions' => $actions,
             'mode' => $mode,
         ));
     }

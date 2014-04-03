@@ -31,6 +31,22 @@
     z-index: -1;
 }
 
+.dashboard-events-action {
+    position: relative;
+}
+
+.dashboard-events-action:before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 48px;
+    width: 2px;
+    background-color: #f3f3f3;
+    z-index: -1;
+}
+
 .event-icon {
     display: inline-block;
     width: 2em;
@@ -38,7 +54,7 @@
     border-radius: 2em;
     text-align: center;
     vertical-align: baseline;
-    padding-top: 4px;
+    padding-top: 5px;
 }
 
 .event-icon-default {
@@ -53,6 +69,11 @@
 
 .event-icon-warning {
     background-color: #f0ad4e;
+    color: #fff;
+}
+
+.event-icon-danger {
+    background-color: #d9534f;
     color: #fff;
 }
 
