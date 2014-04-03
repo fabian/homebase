@@ -138,8 +138,8 @@ $(function () {
         });
     }
     
-    graph('#day-1', 'day/today');
-    graph('#day-2', 'day/yesterday');
-    graph('#day-3', 'day/-2days');
+    graph('#day-1', 'day/today/');
+    graph('#day-2', 'day/yesterday/');
+    graph('#day-3', 'day/-2days/');
 });
 
