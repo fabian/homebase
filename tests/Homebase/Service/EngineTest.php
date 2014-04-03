@@ -14,13 +14,13 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->remoteHue = $this->getMockBuilder('Homebase\Service\RemoteHue')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->queue = $this->getMockBuilder('Homebase\Service\Queue')
+        $this->lights = $this->getMockBuilder('Homebase\Service\Lights')
             ->disableOriginalConstructor()
             ->getMock();
         $this->config = $this->getMockBuilder('Homebase\Service\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->engine = new Engine($this->beacons, $this->remoteHue, $this->queue, $this->config);
+        $this->engine = new Engine($this->beacons, $this->remoteHue, $this->lights, $this->config);
     }
 
     public function testRun()
@@ -46,10 +46,25 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 array('beacon' => '2', 'light' => '2'),
             )));
 
-        $this->queue->expects($this->once())
-            ->method('deleteLight')
+        $this->lights->expects($this->at(0))
+            ->method('getLatestActions')
+            ->will($this->returnValue(array(
+            )));
+
+        $this->lights->expects($this->at(1))
+            ->method('updateActions')
             ->with(
-                $this->equalTo('1')
+                $this->equalTo('1'),
+                $this->equalTo(false),
+                $this->equalTo('queued'),
+                $this->equalTo('cancelled')
+            );
+
+        $this->lights->expects($this->at(2))
+            ->method('addAction')
+            ->with(
+                $this->equalTo('1'),
+                $this->equalTo(true)
             );
 
         $this->remoteHue->expects($this->once())
@@ -59,10 +74,20 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(array('on' => true))
             );
 
-        $this->queue->expects($this->once())
-            ->method('addLight')
+        $this->lights->expects($this->at(3))
+            ->method('updateActions')
             ->with(
-                $this->equalTo('2')
+                $this->equalTo('1'),
+                $this->equalTo(true),
+                $this->equalTo('queued'),
+                $this->equalTo('executed')
+            );
+
+        $this->lights->expects($this->at(4))
+            ->method('addAction')
+            ->with(
+                $this->equalTo('2'),
+                $this->equalTo(false)
             );
 
         $this->engine->run();
@@ -80,7 +105,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->beacons->expects($this->never())
             ->method($this->anything());
 
-        $this->queue->expects($this->never())
+        $this->lights->expects($this->never())
             ->method($this->anything());
 
         $this->remoteHue->expects($this->never())
