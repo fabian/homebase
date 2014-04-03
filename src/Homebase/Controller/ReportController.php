@@ -36,14 +36,14 @@ class ReportController
         $hours = array();
         foreach ($logs as $log) {
             if ($log['on']) {
-                $hours[date('H:00', strtotime($log['created']))][$log['light']] = $log['on'];
+                $hours[date('H:i', strtotime($log['created']))][$log['light']] = $log['on'];
             }
         }
 
         // wrap up
         $data = array();
-        for ($i = 0; $i < 24; $i++) {
-            $hour = sprintf('%02d:00', $i);
+        for ($i = 0; $i < 24 * 60; $i++) {
+            $hour = sprintf('%02d:%02d', ($i / 60), ($i % 60));
             $element = array('hour' => $hour, 'lights' => 0);
             if (isset($hours[$hour])) {
                 $element['lights'] = count($hours[$hour]);

@@ -77,7 +77,7 @@ $(function () {
                 .innerRadius(0)
                 .outerRadius(function(d) { return size(d.lights); })
                 .startAngle(function(d,i) { return radian(i); })
-                .endAngle(function(d,i) { return radian(i + 1) + 0.01; });
+                .endAngle(function(d,i) { return radian(i + 1); });
             
             chartContainer.selectAll("path")
                 .data(data)
@@ -100,7 +100,7 @@ $(function () {
                 .attr("class", "line-ticks")
                 .style("fill", "#777")
                 .style("font-size","11px")
-                .text(function(d,i){ if (i  % 3 == 0) { return d.hour; } })
+                .text(function(d,i){ if (i  % (3 * 60) == 0) { return d.hour; } })
                 .attr("text-anchor", "middle");
                     
             // add circle axes
