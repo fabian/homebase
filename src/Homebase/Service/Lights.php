@@ -40,7 +40,7 @@ class Lights
 
     public function getActions()
     {
-        $sql = 'SELECT * FROM `lights_actions`';
+        $sql = 'SELECT * FROM `lights_actions` ORDER BY `scheduled` DESC';
 
         $result = $this->database->fetchAll($sql);
 
