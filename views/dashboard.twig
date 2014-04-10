@@ -107,12 +107,26 @@
                                 </p>
                             </div>
                             <div class="col-xs-6">
-                                <p class="event-text">Swichted off light {{ action.light }}</p>
+                                <p class="event-text">Switch off light {{ action.light }}</p>
                             </div>
                             <div class="col-xs-4">
                                 <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
                             </div>
-                        {%  else %}
+                        {% elseif action.state == "queued" %}
+                            <div class="col-xs-2">
+                                <p class="text-center">
+                                    <span class="event-icon event-icon-danger">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-xs-6">
+                                <p class="event-text">Switch off {{ action.light }} planned</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
+                            </div>
+                        {% else %}
                             <div class="col-xs-2">
                                 <p class="text-center">
                                     <span class="event-icon event-icon-default">
@@ -121,7 +135,7 @@
                                 </p>
                             </div>
                             <div class="col-xs-6">
-                                <p class="event-text">Switch off cancelled</p>
+                                <p class="event-text">Switch off {{ action.light }} canceled</p>
                             </div>
                             <div class="col-xs-4">
                                 <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
