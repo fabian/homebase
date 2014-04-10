@@ -17,11 +17,11 @@ class Lights
         $this->database = $database;
     }
 
-    public function addAction($light, $on)
+    public function addAction($light, $on, $delay)
     {
-        $sql = 'INSERT INTO `lights_actions` (`light`, `on`, `state`, `created`) VALUES (?, ?, ?, NOW())';
+        $sql = 'INSERT INTO `lights_actions` (`light`, `on`, `scheduled`, `state`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? SECOND), ?)';
 
-        $result = $this->database->executeUpdate($sql, array($light, $on, self::STATE_QUEUED));
+        $result = $this->database->executeUpdate($sql, array($light, $on, $delay, self::STATE_QUEUED));
     }
 
     public function updateActions($light, $on, $state, $newState)
@@ -29,6 +29,13 @@ class Lights
         $sql = 'UPDATE `lights_actions` SET `state` = ?, `executed` = NOW() WHERE `light` = ? AND `on` = ? AND `state` = ?';
 
         $result = $this->database->executeUpdate($sql, array($newState, $light, $on, $state));
+    }
+
+    public function updateAction($action, $state)
+    {
+        $sql = 'UPDATE `lights_actions` SET `state` = ?, `executed` = NOW() WHERE `id` = ?';
+
+        $result = $this->database->executeUpdate($sql, array($state, $action));
     }
 
     public function getActions()
@@ -40,11 +47,11 @@ class Lights
         return $result;
     }
 
-    public function getQueuedActions($on, $to)
+    public function getQueuedActions()
     {
-        $sql = 'SELECT * FROM `lights_actions` WHERE `on` = ? AND `state` = ? AND `created` < ? GROUP BY `light`';
+        $sql = 'SELECT * FROM `lights_actions` WHERE `state` = ? AND `scheduled` <= NOW()';
 
-        $result = $this->database->fetchAll($sql, array($on, self::STATE_QUEUED, $to));
+        $result = $this->database->fetchAll($sql, array(self::STATE_QUEUED));
 
         return $result;
     }

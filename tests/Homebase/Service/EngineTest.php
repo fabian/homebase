@@ -11,16 +11,13 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->beacons = $this->getMockBuilder('Homebase\Service\Beacons')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->remoteHue = $this->getMockBuilder('Homebase\Service\RemoteHue')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->lights = $this->getMockBuilder('Homebase\Service\Lights')
             ->disableOriginalConstructor()
             ->getMock();
         $this->config = $this->getMockBuilder('Homebase\Service\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->engine = new Engine($this->beacons, $this->remoteHue, $this->lights, $this->config);
+        $this->engine = new Engine($this->beacons, $this->lights, $this->config);
     }
 
     public function testRun()
@@ -67,27 +64,12 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(true)
             );
 
-        $this->remoteHue->expects($this->once())
-            ->method('setLightState')
-            ->with(
-                $this->equalTo('1'),
-                $this->equalTo(array('on' => true))
-            );
-
         $this->lights->expects($this->at(3))
-            ->method('updateActions')
-            ->with(
-                $this->equalTo('1'),
-                $this->equalTo(true),
-                $this->equalTo('queued'),
-                $this->equalTo('executed')
-            );
-
-        $this->lights->expects($this->at(4))
             ->method('addAction')
             ->with(
                 $this->equalTo('2'),
-                $this->equalTo(false)
+                $this->equalTo(false),
+                $this->equalTo(180)
             );
 
         $this->engine->run();
@@ -106,9 +88,6 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->method($this->anything());
 
         $this->lights->expects($this->never())
-            ->method($this->anything());
-
-        $this->remoteHue->expects($this->never())
             ->method($this->anything());
 
         $this->engine->run();

@@ -50,7 +50,6 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['engine'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Engine(
                 $app['beacons'],
-                $app['remotehue'],
                 $app['lights'],
                 $app['config']
             );

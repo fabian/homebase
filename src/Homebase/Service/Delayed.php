@@ -19,19 +19,18 @@ class Delayed
 
     public function run()
     {
-        $to = new \DateTime('-3 minute');
-        $lights = $this->lights->getQueuedActions(false, $to->format('Y-m-d H:i:s'));
+        $lights = $this->lights->getQueuedActions();
 
         foreach ($lights as $light) {
 
-            // only switch lights off if engine is running
+            // only switch lights if engine is running
             if ($this->config->get(Config::ENGINE_MODE) != Config::ENGINE_MODE_MANUAL) {
 
-                $this->remoteHue->setLightState($light['light'], array('on' => false));
+                $this->remoteHue->setLightState($light['light'], array('on' => (boolean) $light['on']));
             }
 
             // always remove light from queue
-            $this->lights->updateActions($light['light'], false, Lights::STATE_QUEUED, Lights::STATE_EXECUTED);
+            $this->lights->updateAction($light['id'], Lights::STATE_EXECUTED);
         }
     }
 }

@@ -4,10 +4,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $config = require __DIR__ . '/../config.php';
 
-$start = microtime(true);
 set_time_limit(60);
 
+$start = microtime(true);
 $app = new Homebase\Application($config);
+
 for ($i = 0; $i < 59; $i++) {
 
     $app['engine']->run();
@@ -20,4 +21,3 @@ for ($i = 0; $i < 59; $i++) {
         time_sleep_until($start + $i + 1);
     }
 }
-

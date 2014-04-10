@@ -8,16 +8,13 @@ class Engine
 
     protected $beacons;
 
-    protected $remoteHue;
-
     protected $lights;
 
     protected $config;
 
-    public function __construct($beacons, $remoteHue, $lights, $config)
+    public function __construct($beacons, $lights, $config)
     {
         $this->beacons = $beacons;
-        $this->remoteHue = $remoteHue;
         $this->lights = $lights;
         $this->config = $config;
     }
@@ -82,15 +79,8 @@ class Engine
                     // remove light from queue, avoid off
                     $this->lights->updateActions($light, false, Lights::STATE_QUEUED, Lights::STATE_CANCELLED);
 
-                    // add action to switch on
-                    $this->lights->addAction($light, $on);
-
-                    // switch light on
-                    $this->remoteHue->setLightState($light, array('on' => $on));
-
-                    // mark as executed
-                    $this->lights->updateActions($light, true, Lights::STATE_QUEUED, Lights::STATE_EXECUTED);
-
+                    // add action to switch on (now)
+                    $this->lights->addAction($light, $on, 0);
                 }
 
             } else {
@@ -98,8 +88,8 @@ class Engine
                 // only switch off if not already switched off
                 if (!isset($actionsGrouped[$light]) || $actionsGrouped[$light]) {
 
-                    // add queued off action
-                    $this->lights->addAction($light, $on);
+                    // add queued off action (3min)
+                    $this->lights->addAction($light, $on, 3 * 60);
 
                 }
             }
