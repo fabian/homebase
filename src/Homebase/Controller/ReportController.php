@@ -10,13 +10,10 @@ class ReportController
 {
     protected $twig;
 
-    protected $log;
-
     protected $beacons;
 
-    public function __construct($twig, $log, $beacons) {
+    public function __construct($twig, $beacons) {
         $this->twig = $twig;
-        $this->log = $log;
         $this->beacons = $beacons;
     }
 
@@ -31,7 +28,7 @@ class ReportController
         $from = date('Y-m-d 00:00:00', $day);
         $to = date('Y-m-d 23:59:59', $day);
 
-        $logs = $this->log->getLogs($from, $to);
+        $logs = $this->lights->getLogs($from, $to);
 
         $hours = array();
         foreach ($logs as $log) {

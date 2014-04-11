@@ -56,6 +56,15 @@ class Lights
         ));
     }
 
+    public function getLogs($from, $to)
+    {
+        $sql = 'SELECT * FROM `lights_log` WHERE `created` >= ? AND `created` < ? ORDER BY `created`';
+
+        $result = $this->database->fetchAll($sql, array($from, $to));
+
+        return $result;
+    }
+
     public function addAction($light, $on, $delay)
     {
         $sql = 'INSERT INTO `lights_actions` (`light`, `on`, `scheduled`, `state`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? SECOND), ?)';

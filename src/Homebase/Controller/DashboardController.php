@@ -13,8 +13,6 @@ class DashboardController
 {
     protected $twig;
 
-    protected $log;
-
     protected $beacons;
 
     protected $config;
@@ -23,9 +21,8 @@ class DashboardController
 
     protected $url;
 
-    public function __construct($twig, $log, $beacons, $config, $lights, $url) {
+    public function __construct($twig, $beacons, $config, $lights, $url) {
         $this->twig = $twig;
-        $this->log = $log;
         $this->beacons = $beacons;
         $this->config = $config;
         $this->lights = $lights;
@@ -121,7 +118,7 @@ class DashboardController
         $from = new \DateTime('-30 days');
         $to = new \DateTime('today');
 
-        $logs = $this->log->getLogs($from->format('Y-m-d 00:00:00'), $to->format('Y-m-d 23:59:59'));
+        $logs = $this->lights->getLogs($from->format('Y-m-d 00:00:00'), $to->format('Y-m-d 23:59:59'));
 
         $period = new \DatePeriod($from, new \DateInterval('P1D'), $to);
         $days = array();
