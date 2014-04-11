@@ -17,6 +17,45 @@ class Lights
         $this->database = $database;
     }
 
+    public function addLight($number, $name)
+    {
+        $sql = 'INSERT INTO `lights` (`number`, `name`, `added`) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE `name` = ?';
+    
+        $result = $this->database->executeUpdate($sql, array(
+            $number,
+            $name,
+            $name,
+        ));
+    }
+
+    public function getLights()
+    {
+        $sql = 'SELECT * FROM `lights`';
+
+        $result = $this->database->fetchAll($sql);
+
+        return $result;
+    }
+
+    public function getLight($number)
+    {
+        $sql = 'SELECT * FROM `lights` WHERE `number` = ?';
+
+        $light = $this->database->fetchAssoc($sql, array($number));
+
+        return $light;
+    }
+
+    public function addLog($light, $on)
+    {
+        $sql = 'INSERT INTO `lights_log` (`light`, `on`, `created`) VALUES (?, ?, NOW())';
+
+        $result = $this->database->executeUpdate($sql, array(
+            $light,
+            $on,
+        ));
+    }
+
     public function addAction($light, $on, $delay)
     {
         $sql = 'INSERT INTO `lights_actions` (`light`, `on`, `scheduled`, `state`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? SECOND), ?)';
@@ -40,7 +79,10 @@ class Lights
 
     public function getActions()
     {
-        $sql = 'SELECT * FROM `lights_actions` ORDER BY `scheduled` DESC';
+        $sql = 'SELECT a.id, a.on, a.state, a.scheduled, a.executed, l.number, l.name 
+            FROM `lights_actions` a 
+            INNER JOIN `lights` l ON l.id = a.light 
+            ORDER BY `scheduled` DESC';
 
         $result = $this->database->fetchAll($sql);
 
@@ -49,7 +91,7 @@ class Lights
 
     public function getQueuedActions()
     {
-        $sql = 'SELECT * FROM `lights_actions` WHERE `state` = ? AND `scheduled` <= NOW()';
+        $sql = 'SELECT a.id, a.on, l.number FROM `lights_actions` a INNER JOIN `lights` l ON l.id = a.light WHERE a.state = ? AND `scheduled` <= NOW()';
 
         $result = $this->database->fetchAll($sql, array(self::STATE_QUEUED));
 

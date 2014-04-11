@@ -63,6 +63,13 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             );
         });
 
+        $app['sync'] = $app->share(function() use ($app, $config) {
+            return new \Homebase\Service\Sync(
+                $app['remotehue'],
+                $app['lights']
+            );
+        });
+
         $app['config'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Config(
                 $app['db']
@@ -98,7 +105,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             return new \Homebase\Controller\SetupController(
                 $app['twig'],
                 $app['beacons'],
-                $app['remotehue'],
+                $app['lights'],
                 $app['url_generator']
             );
         });

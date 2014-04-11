@@ -23,10 +23,10 @@
                         </button>
                     </h2>
                 </div>
-                {% for id, light in lights %}
+                {% for light in lights %}
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="mapping[{{ beacon.id }}][{{ id }}]" value="1"{% if mapping[beacon.id][id] is defined %} checked{% endif %}>
+                        <input type="checkbox" name="mapping[{{ beacon.id }}][{{ light.id }}]" value="1"{% if mapping[beacon.id][light.id] is defined %} checked{% endif %}>
                         {{ light.name }}
                     </label>
                 </div>

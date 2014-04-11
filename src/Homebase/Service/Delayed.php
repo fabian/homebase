@@ -26,7 +26,7 @@ class Delayed
             // only switch lights if engine is running
             if ($this->config->get(Config::ENGINE_MODE) != Config::ENGINE_MODE_MANUAL) {
 
-                $this->remoteHue->setLightState($light['light'], array('on' => (boolean) $light['on']));
+                $this->remoteHue->setLightState($light['number'], array('on' => (boolean) $light['on']));
             }
 
             // always remove light from queue

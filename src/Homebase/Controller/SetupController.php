@@ -14,15 +14,15 @@ class SetupController
 
     protected $beacons;
 
-    protected $remoteHue;
+    protected $lights;
 
     protected $url;
 
-    public function __construct($twig, $beacons, $remoteHue, $url)
+    public function __construct($twig, $beacons, $lights, $url)
     {
         $this->twig = $twig;
         $this->beacons = $beacons;
-        $this->remoteHue = $remoteHue;
+        $this->lights = $lights;
         $this->url = $url;
     }
 
@@ -32,7 +32,7 @@ class SetupController
         $message = $request->query->get('message');
 
         $beacons = $this->beacons->getBeacons();
-        $info = $this->remoteHue->getBridgeInfo();
+        $lights = $this->lights->getLights();
         $mapping = $this->beacons->getUserMappings($user);
 
         $mappingGrouped = array();
@@ -42,8 +42,6 @@ class SetupController
             }
             $mappingGrouped[$map['beacon']][$map['light']] = true;
         }
-
-        $lights = $info['lights'];
 
         return $this->twig->render('setup.twig', array(
             'message' => $message,
