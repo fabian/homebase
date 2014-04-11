@@ -12,9 +12,12 @@ class ReportController
 
     protected $beacons;
 
-    public function __construct($twig, $beacons) {
+    protected $lights;
+
+    public function __construct($twig, $beacons, $lights) {
         $this->twig = $twig;
         $this->beacons = $beacons;
+        $this->lights = $lights;
     }
 
     public function indexAction()

@@ -89,7 +89,8 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['report.controller'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Controller\ReportController(
                 $app['twig'],
-                $app['beacons']
+                $app['beacons'],
+                $app['lights']
             );
         });
 
