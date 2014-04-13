@@ -100,7 +100,7 @@ class Beacons
 
     public function getMappings()
     {
-        $sql = 'SELECT * 
+        $sql = 'SELECT l.id AS `light`, bm.beacon
             FROM `lights` l
             LEFT JOIN `beacons_mappings` bm ON bm.light = l.id';
 
