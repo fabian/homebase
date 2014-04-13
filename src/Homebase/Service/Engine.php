@@ -33,13 +33,13 @@ class Engine
         $mappingGrouped = array();
         foreach ($mappings as $mapping) {
 
-            $lights[$mapping['light']] = false;
+            $lights[$mapping['id']] = false;
 
             if ($mapping['beacon']) {
                 if (!isset($mappingGrouped[$mapping['beacon']])) {
                     $mappingGrouped[$mapping['beacon']] = array();
                 }
-                $mappingGrouped[$mapping['beacon']][$mapping['light']] = true;
+                $mappingGrouped[$mapping['beacon']][$mapping['id']] = true;
             }
         }
 

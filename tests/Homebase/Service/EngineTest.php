@@ -39,9 +39,9 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->beacons->expects($this->once())
             ->method('getMappings')
             ->will($this->returnValue(array(
-                array('beacon' => '1', 'light' => '1'),
-                array('beacon' => '2', 'light' => '2'),
-                array('beacon' => null, 'light' => '3'),
+                array('id' => 1, 'beacon' => '1'),
+                array('id' => 2, 'beacon' => '2'),
+                array('id' => 3, 'beacon' => null),
             )));
 
         $this->lights->expects($this->at(0))
