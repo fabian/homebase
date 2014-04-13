@@ -100,7 +100,9 @@ class Beacons
 
     public function getMappings()
     {
-        $sql = 'SELECT * FROM `beacons_mappings`';
+        $sql = 'SELECT * 
+            FROM `lights` l
+            LEFT JOIN `beacons_mappings` bm ON bm.light = l.id';
 
         $result = $this->database->executeQuery($sql);
 

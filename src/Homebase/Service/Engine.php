@@ -29,12 +29,18 @@ class Engine
         $states = $this->beacons->getLatestStates();
         $mappings = $this->beacons->getMappings();
 
+        $lights = array();
         $mappingGrouped = array();
         foreach ($mappings as $mapping) {
-            if (!isset($mappingGrouped[$mapping['beacon']])) {
-                $mappingGrouped[$mapping['beacon']] = array();
+
+            $lights[$mapping['light']] = false;
+
+            if ($mapping['beacon']) {
+                if (!isset($mappingGrouped[$mapping['beacon']])) {
+                    $mappingGrouped[$mapping['beacon']] = array();
+                }
+                $mappingGrouped[$mapping['beacon']][$mapping['light']] = true;
             }
-            $mappingGrouped[$mapping['beacon']][$mapping['light']] = true;
         }
 
         $actions = $this->lights->getLatestActions();
@@ -43,7 +49,6 @@ class Engine
             $actionsGrouped[$action['light']] = $action['on'];
         }
 
-        $lights = array();
         foreach ($states as $state) {
 
             $beaconId = $state['id'];
@@ -56,14 +61,6 @@ class Engine
 
                         $lights[$light] = true;
 
-                    } else {
-
-                        // don't override value
-                        if (!isset($lights[$light])) {
-
-                            $lights[$light] = false;
-
-                        }
                     }
                 }
             }

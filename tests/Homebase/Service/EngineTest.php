@@ -41,6 +41,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
                 array('beacon' => '1', 'light' => '1'),
                 array('beacon' => '2', 'light' => '2'),
+                array('beacon' => null, 'light' => '3'),
             )));
 
         $this->lights->expects($this->at(0))
@@ -68,6 +69,14 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->method('addAction')
             ->with(
                 $this->equalTo('2'),
+                $this->equalTo(false),
+                $this->equalTo(180)
+            );
+
+        $this->lights->expects($this->at(4))
+            ->method('addAction')
+            ->with(
+                $this->equalTo('3'),
                 $this->equalTo(false),
                 $this->equalTo(180)
             );
