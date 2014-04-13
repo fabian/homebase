@@ -8,7 +8,7 @@ class Lights
 
     const STATE_QUEUED = 'queued';
 
-    const STATE_CANCELLED = 'cancelled';
+    const STATE_CANCELED = 'canceled';
     
     protected $database;
 

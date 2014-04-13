@@ -77,7 +77,7 @@ class Engine
                 if (!isset($actionsGrouped[$light]) || !$actionsGrouped[$light]) {
 
                     // remove light from queue, avoid off
-                    $this->lights->updateActions($light, false, Lights::STATE_QUEUED, Lights::STATE_CANCELLED);
+                    $this->lights->updateActions($light, false, Lights::STATE_QUEUED, Lights::STATE_CANCELED);
 
                     // add action to switch on (now)
                     $this->lights->addAction($light, $on, 0);

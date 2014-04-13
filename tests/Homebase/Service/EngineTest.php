@@ -54,7 +54,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('1'),
                 $this->equalTo(false),
                 $this->equalTo('queued'),
-                $this->equalTo('cancelled')
+                $this->equalTo('canceled')
             );
 
         $this->lights->expects($this->at(2))
