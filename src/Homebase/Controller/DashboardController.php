@@ -21,7 +21,8 @@ class DashboardController
 
     protected $url;
 
-    public function __construct($twig, $beacons, $config, $lights, $url) {
+    public function __construct($twig, $beacons, $config, $lights, $url)
+    {
         $this->twig = $twig;
         $this->beacons = $beacons;
         $this->config = $config;
@@ -34,14 +35,35 @@ class DashboardController
         $from = new \DateTime('-24 hour');
         $to = new \DateTime('now');
 
-        $states = $this->beacons->getStates($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'));
-        $mode = $this->config->get(Config::ENGINE_MODE);
-
+        $states = $this->beacons->getStates();
         $actions = $this->lights->getActions();
+
+        $events = array_merge($states, $actions);
+        uasort($events, function ($a, $b) {
+
+            if ($a['type'] == 'action') {
+                $secondsA = strtotime($a['scheduled']);
+            } else { // state
+                $secondsA = strtotime($a['occurred']);
+                $secondsA += $a['occurred_micro'] / 1000000;
+            }
+
+            if ($b['type'] == 'action') {
+                $secondsB = strtotime($b['scheduled']);
+            } else { // state
+                $secondsB = strtotime($b['occurred']);
+                $secondsB += $b['occurred_micro'] / 1000000;
+            }
+
+            return $secondsA - $secondsB;
+        });
+
+        $mode = $this->config->get(Config::ENGINE_MODE);
 
         return $this->twig->render('dashboard.twig', array(
             'states' => $states,
             'actions' => $actions,
+            'events' => $events,
             'mode' => $mode,
         ));
     }
@@ -63,7 +85,7 @@ class DashboardController
 
         $data = array();
 
-        $proximities = $this->beacons->getProximities($from->format('Y-m-d H:i:s'), $to->format('Y-m-d H:i:s'), $limit);
+        $proximities = $this->beacons->getProximities($limit);
         foreach ($proximities as $proximity) {
             $data[] = array('recorded' => $proximity['recorded'], 'type' => 'proximity', 'value' => $proximity['proximity']);
         }

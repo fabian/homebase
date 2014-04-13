@@ -86,16 +86,17 @@ class Lights
         $result = $this->database->executeUpdate($sql, array($state, $action));
     }
 
-    public function getActions()
+    public function getActions($limit = 10)
     {
-        $sql = 'SELECT a.id, a.on, a.state, a.scheduled, a.executed, l.number, l.name 
+        $sql = 'SELECT a.id, a.on, a.state, a.scheduled, a.executed, l.number, l.name, \'action\' AS `type`
             FROM `lights_actions` a 
             INNER JOIN `lights` l ON l.id = a.light 
-            ORDER BY `scheduled` DESC';
+            ORDER BY `scheduled` DESC 
+            LIMIT ?';
 
-        $result = $this->database->fetchAll($sql);
+        $result = $this->database->executeQuery($sql, array($limit), array(\PDO::PARAM_INT));
 
-        return $result;
+        return $result->fetchAll();
     }
 
     public function getQueuedActions()

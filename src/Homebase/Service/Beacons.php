@@ -114,16 +114,15 @@ class Beacons
         $result = $this->database->executeUpdate($sql, array($beacon, $state, $occurred, $occurredMicro));
     }
 
-    public function getStates($from, $to, $limit = 10)
+    public function getStates($limit = 10)
     {
-        $sql = 'SELECT bs.id, bs.beacon, bs.state, bs.recorded, b.name AS `beacon_name` 
+        $sql = 'SELECT bs.id, bs.beacon, bs.state, bs.recorded, bs.occurred, bs.occurred_micro, b.name AS `beacon_name`, \'state\' AS `type`
             FROM `beacons_states` bs
             INNER JOIN `beacons` b ON b.id = bs.beacon 
-            WHERE `recorded` >= ? AND `recorded` < ? 
             ORDER BY `occurred` DESC, `occurred_micro` DESC 
             LIMIT ?';
 
-        $result = $this->database->executeQuery($sql, array($from, $to, $limit), array(\PDO::PARAM_STR, \PDO::PARAM_STR, \PDO::PARAM_INT));
+        $result = $this->database->executeQuery($sql, array($limit), array(\PDO::PARAM_INT));
 
         return $result->fetchAll();
     }

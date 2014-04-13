@@ -42,111 +42,99 @@
 </div>
 <hr/>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h3>Events</h3>
         <div class="dashboard-events">
-            {% for state in states %}
+            {% for event in events %}
                 <div class="row">
-                    {% if state.state == "inside" %}
-                        <div class="col-xs-2">
-                            <p class="text-center">
+                    {% if event.type == "state" %}
+                        {% if event.state == "inside" %}
+                            <div class="col-xs-1">
                                 <span class="event-icon event-icon-success">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="col-xs-6">
-                            <p class="event-text">Entered inside {{ state.beacon_name }}</p>
-                        </div>
-                    {% endif %}
-                    {% if state.state == "outside" %}
-                        <div class="col-xs-2">
-                            <p class="text-center">
+                            </div>
+                            <div class="col-xs-6">
+                                <p class="event-text">Entered inside {{ event.beacon_name }}</p>
+                            </div>
+                            <div class="col-xs-5">
+                                <p class="event-text"><span class="text-muted time">{{ event.recorded }}</span></p>
+                            </div>
+                        {% endif %}
+                        {% if event.state == "outside" %}
+                            <div class="col-xs-1">
                                 <span class="event-icon event-icon-default">
                                     <span class="glyphicon glyphicon-ban-circle"></span>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="col-xs-6">
-                            <p class="event-text">Stepped outside {{ state.beacon_name }}</p>
-                        </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <p class="event-text">Stepped outside {{ event.beacon_name }}</p>
+                            </div>
+                            <div class="col-xs-5">
+                                <p class="event-text"><span class="text-muted time">{{ event.recorded }}</span></p>
+                            </div>
+                        {% endif %}
                     {% endif %}
-                    <div class="col-xs-4">
-                        <p class="event-text"><span class="text-muted time">{{ state.recorded }}</span></p>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="col-md-4">
-        <h3>Events</h3>
-        <div class="dashboard-events">
-            {% for action in actions %}
-                <div class="row">
-                    {% if action.on %}
-                        <div class="col-xs-2">
-                            <p class="text-center">
+                    {% if event.type == "action" %}
+                        {% if event.on %}
+                            <div class="col-xs-1">
                                 <span class="event-icon event-icon-warning">
                                     <span class="glyphicon glyphicon-certificate"></span>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="col-xs-6">
-                            <p class="event-text">Switched on light {{ action.name }}</p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p class="event-text"><span class="text-muted time">{{ action.scheduled }}</span></p>
-                        </div>
-                    {% else %}
-                        {% if action.state == "executed" %}
-                            <div class="col-xs-2">
-                                <p class="text-center">
+                            </div>
+                            <div class="col-xs-6">
+                                <p class="event-text">Switched on light {{ event.name }}</p>
+                            </div>
+                            <div class="col-xs-5">
+                                <p class="event-text"><span class="text-muted time">{{ event.scheduled }}</span></p>
+                            </div>
+                        {% else %}
+                            {% if event.state == "executed" %}
+                                <div class="col-xs-1">
                                     <span class="event-icon event-icon-danger">
                                         <span class="glyphicon glyphicon-flash"></span>
                                     </span>
-                                </p>
-                            </div>
-                            <div class="col-xs-6">
-                                <p class="event-text">Switched off light {{ action.name }}</p>
-                            </div>
-                            <div class="col-xs-4">
-                                <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
-                            </div>
-                        {% elseif action.state == "queued" %}
-                            <div class="col-xs-2">
-                                <p class="text-center">
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="event-text">Switched off light {{ event.name }}</p>
+                                </div>
+                                <div class="col-xs-5">
+                                    <p class="event-text"><span class="text-muted time">{{ event.executed }}</span></p>
+                                </div>
+                            {% endif %}
+                            {% if event.state == "queued" %}
+                                <div class="col-xs-1">
                                     <span class="event-icon event-icon-danger">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                </p>
-                            </div>
-                            <div class="col-xs-6">
-                                <p class="event-text">Switch off {{ action.name }} planned</p>
-                            </div>
-                            <div class="col-xs-4">
-                                <p class="event-text"><span class="text-muted time">{{ action.scheduled }}</span></p>
-                            </div>
-                        {% else %}
-                            <div class="col-xs-2">
-                                <p class="text-center">
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="event-text">Switch off {{ event.name }} planned</p>
+                                </div>
+                                <div class="col-xs-5">
+                                    <p class="event-text"><span class="text-muted time">{{ event.scheduled }}</span></p>
+                                </div>
+                            {% endif %}
+                            {% if event.state == "canceled" %}
+                                <div class="col-xs-1">
                                     <span class="event-icon event-icon-default">
                                         <span class="glyphicon glyphicon-flash"></span>
                                     </span>
-                                </p>
-                            </div>
-                            <div class="col-xs-6">
-                                <p class="event-text">Switch off {{ action.name }} canceled</p>
-                            </div>
-                            <div class="col-xs-4">
-                                <p class="event-text"><span class="text-muted time">{{ action.executed }}</span></p>
-                            </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="event-text">Switch off {{ event.name }} canceled</p>
+                                </div>
+                                <div class="col-xs-5">
+                                    <p class="event-text"><span class="text-muted time">{{ event.executed }}</span></p>
+                                </div>
+                            {%  endif %}
                         {%  endif %}
                     {%  endif %}
                 </div>
             {% endfor %}
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h3>RSSI</h3>
         <p>Signal strength over the last 60 minutes:</p>
         <div id="beacons" class="graph-stream-rssi"></div>
