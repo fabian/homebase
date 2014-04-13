@@ -55,7 +55,7 @@ class DashboardController
                 $secondsB += $b['occurred_micro'] / 1000000;
             }
 
-            return $secondsA - $secondsB;
+            return $secondsB - $secondsA;
         });
 
         $mode = $this->config->get(Config::ENGINE_MODE);
