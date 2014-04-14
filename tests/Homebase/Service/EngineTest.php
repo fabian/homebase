@@ -41,6 +41,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
                 array('light' => 1, 'beacon' => '1'),
                 array('light' => 2, 'beacon' => '2'),
+                array('light' => 1, 'beacon' => '2'),
                 array('light' => 3, 'beacon' => null),
             )));
 
