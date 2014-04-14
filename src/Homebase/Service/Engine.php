@@ -46,7 +46,7 @@ class Engine
         $actions = $this->lights->getLatestActions();
         $actionsGrouped = array();
         foreach ($actions as $action) {
-            $actionsGrouped[$action['light']] = $action['on'];
+            $actionsGrouped[$action['id']] = $action['on'];
         }
 
         foreach ($states as $state) {
@@ -71,7 +71,7 @@ class Engine
             if ($on) {
 
                 // only switch on if not already switched on
-                if (!isset($actionsGrouped[$light]) || !$actionsGrouped[$light]) {
+                if (!$actionsGrouped[$light]) {
 
                     // remove light from queue, avoid off
                     $this->lights->updateActions($light, false, Lights::STATE_QUEUED, Lights::STATE_CANCELED);
@@ -83,7 +83,7 @@ class Engine
             } else {
 
                 // only switch off if not already switched off
-                if (!isset($actionsGrouped[$light]) || $actionsGrouped[$light]) {
+                if ($actionsGrouped[$light]) {
 
                     // add queued off action (3min)
                     $this->lights->addAction($light, $on, 3 * 60);

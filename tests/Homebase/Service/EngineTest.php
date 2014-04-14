@@ -40,17 +40,25 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->method('getMappings')
             ->will($this->returnValue(array(
                 array('light' => 1, 'beacon' => '1'),
-                array('light' => 2, 'beacon' => '2'),
                 array('light' => 1, 'beacon' => '2'),
+                array('light' => 2, 'beacon' => '2'),
                 array('light' => 3, 'beacon' => null),
             )));
 
-        $this->lights->expects($this->at(0))
+        $i = 0;
+
+        $this->lights->expects($this->at($i++))
             ->method('getLatestActions')
             ->will($this->returnValue(array(
+                array('id' => 1, 'on' => '0'),
+                array('id' => 2, 'on' => '1'),
+                array('id' => 3, 'on' => '1'),
             )));
 
-        $this->lights->expects($this->at(1))
+        $this->lights->expects($this->once())
+            ->method('getLatestActions');
+
+        $this->lights->expects($this->at($i++))
             ->method('updateActions')
             ->with(
                 $this->equalTo('1'),
@@ -59,14 +67,17 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('canceled')
             );
 
-        $this->lights->expects($this->at(2))
+        $this->lights->expects($this->once())
+            ->method('updateActions');
+
+        $this->lights->expects($this->at($i++))
             ->method('addAction')
             ->with(
                 $this->equalTo('1'),
                 $this->equalTo(true)
             );
 
-        $this->lights->expects($this->at(3))
+        $this->lights->expects($this->at($i++))
             ->method('addAction')
             ->with(
                 $this->equalTo('2'),
@@ -74,13 +85,16 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(180)
             );
 
-        $this->lights->expects($this->at(4))
+        $this->lights->expects($this->at($i++))
             ->method('addAction')
             ->with(
                 $this->equalTo('3'),
                 $this->equalTo(false),
                 $this->equalTo(180)
             );
+
+        $this->lights->expects($this->exactly(3))
+            ->method('addAction');
 
         $this->engine->run();
     }

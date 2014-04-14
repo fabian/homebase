@@ -110,11 +110,13 @@ class Lights
 
     public function getLatestActions()
     {
-        $sql = 'SELECT a1.*
-            FROM lights_actions a1
-            LEFT JOIN lights_actions a2
-            ON a1.light = a2.light AND a1.scheduled < a2.scheduled
-            WHERE a1.state IN (?, ?) AND a2.id IS NULL';
+        $sql = 'SELECT `id`,
+            (SELECT `on`
+                FROM `lights_actions` la
+                WHERE la.light = l.id
+                ORDER BY `scheduled` DESC
+                LIMIT 1) AS `on`
+            FROM `lights` l';
 
         $result = $this->database->fetchAll($sql, array(self::STATE_EXECUTED, self::STATE_QUEUED));
 
