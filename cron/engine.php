@@ -18,6 +18,6 @@ for ($i = 0; $i < 59; $i++) {
     // if next in the past, try to catch up without sleep
     if ($next > microtime(true)) {
 
-        time_sleep_until($start + $i + 1);
+        time_sleep_until($next);
     }
 }
