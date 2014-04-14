@@ -9,7 +9,7 @@ set_time_limit(60);
 $start = microtime(true);
 $app = new Homebase\Application($config);
 
-for ($i = 0; $i < 59; $i++) {
+for ($i = 0; $i < 60; $i++) {
 
     $app['engine']->run();
 
