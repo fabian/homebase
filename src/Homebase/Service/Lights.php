@@ -113,7 +113,7 @@ class Lights
         $sql = 'SELECT `id`,
             (SELECT `on`
                 FROM `lights_actions` la
-                WHERE la.light = l.id
+                WHERE la.light = l.id AND la.state IN (?, ?)
                 ORDER BY `scheduled` DESC
                 LIMIT 1) AS `on`
             FROM `lights` l';
