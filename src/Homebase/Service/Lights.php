@@ -65,6 +65,19 @@ class Lights
         return $result;
     }
 
+    public function getSummedLogs($from, $to)
+    {
+        $sql = 'SELECT l.light, DATE_FORMAT(l.created, "%Y-%m-%d") AS `date`, SUM(l.on) AS `hours` 
+            FROM `lights_log` l 
+            WHERE l.created >= ? AND l.created < ? 
+            GROUP BY l.light, `date` 
+            ORDER BY l.created, l.light';
+
+        $result = $this->database->fetchAll($sql, array($from, $to));
+
+        return $result;
+    }
+
     public function addAction($light, $on, $delay)
     {
         $sql = 'INSERT INTO `lights_actions` (`light`, `on`, `scheduled`, `state`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? SECOND), ?)';

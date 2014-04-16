@@ -106,7 +106,7 @@ $(function () {
             .range([height - 3 * padding, padding]);
         
         var color = d3.scale.linear()
-            .domain([0, layers.length - 1])
+            .domain([d3.min(data, function(d) { return d.light; }), d3.max(data, function(d) { return d.light; })])
             .range(["#F9D76C", "#f6c323"]);
         
         var area = d3.svg.area()
