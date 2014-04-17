@@ -42,14 +42,22 @@ class DashboardController
         uasort($events, function ($a, $b) {
 
             if ($a['type'] == 'action') {
-                $secondsA = strtotime($a['scheduled']);
+                if ($a['state'] == 'canceled') {
+                    $secondsA = strtotime($a['executed']);
+                } else {
+                    $secondsA = strtotime($a['scheduled']);
+                }
             } else { // state
                 $secondsA = strtotime($a['occurred']);
                 $secondsA += $a['occurred_micro'] / 1000000;
             }
 
             if ($b['type'] == 'action') {
-                $secondsB = strtotime($b['scheduled']);
+                if ($b['state'] == 'canceled') {
+                    $secondsB = strtotime($b['executed']);
+                } else {
+                    $secondsB = strtotime($b['scheduled']);
+                }
             } else { // state
                 $secondsB = strtotime($b['occurred']);
                 $secondsB += $b['occurred_micro'] / 1000000;
