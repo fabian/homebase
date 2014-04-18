@@ -18,11 +18,11 @@
             <div class="col-xs-6">
                 <form action="{{ url('mode') }}" method="post">
                     {% if mode == "manual" %}
-                        <p><br/>Engine running.</p>
+                        <p><br/>Engine stopped.</p>
                         <input type="hidden" name="mode" value="automatic">
                         <button id="engine-mode" type="submit" class="btn btn-success">Start Engine</button>
                     {% else %}
-                        <p><br/>Engine stopped.</p>
+                        <p><br/>Engine running.</p>
                         <input type="hidden" name="mode" value="manual">
                         <button id="engine-mode" type="submit" class="btn btn-danger">Stop Engine</button>
                     {% endif %}
