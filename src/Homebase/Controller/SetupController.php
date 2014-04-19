@@ -53,41 +53,96 @@ class SetupController
 
     public function saveAction(Request $request)
     {
-        $hide = $request->request->get('hide');
-        $show = $request->request->get('show');
+        $mapping = $request->request->get('mapping');
+        $user = $request->getUser();
 
-        if ($hide) {
+        // clear old values
+        $this->beacons->deleteMappings($user);
 
-            foreach ($hide as $beacon => $empty) {
-                $this->beacons->saveBeaconActive($beacon, false);
+        // save new values
+        foreach ($mapping as $beacon => $lights) {
+            foreach ($lights as $light => $true) {
+                $this->beacons->saveMapping($beacon, $light, $user);
             }
+        }
 
-            return new RedirectResponse($this->url->generate('setup', array('message' => 'Beacon is now hidden.')));
+        return new RedirectResponse($this->url->generate('setup', array('message' => 'Setup was saved successfully.')));
+    }
 
-        } else if ($show) {
+    public function addBeaconAction(Request $request)
+    {
+        return $this->twig->render('beacon.twig');
+    }
 
-            foreach ($show as $beacon => $empty) {
-                $this->beacons->saveBeaconActive($beacon, true);
-            }
+    public function addBeaconPostAction(Request $request)
+    {
+        $name = $request->request->get('name');
+        $uuid = $request->request->get('uuid');
+        $major = $request->request->get('major');
+        $minor = $request->request->get('minor');
+        $active = $request->request->get('active');
 
-            return new RedirectResponse($this->url->generate('setup', array('message' => 'Beacon is now shown again.')));
+        $duplicate = $this->beacons->isDuplicate($uuid, $major, $minor);
+
+        if ($duplicate) {
+
+            return $this->twig->render('beacon.twig', array(
+                'name' => $name,
+                'uuid' => $uuid,
+                'major' => $major,
+                'minor' => $minor,
+                'active' => $active,
+                'message' => 'There is already another Beacon with the same UUID, major and minor.',
+            ));
+    
+        } else {
+    
+            $this->beacons->addBeacon($uuid, $major, $minor, $name, $active);
+    
+            return new RedirectResponse($this->url->generate('setup', array('message' => 'Beacon was saved successfully.')));
+        }
+    }
+
+    public function editBeaconAction($id, Request $request)
+    {
+        $beacon = $this->beacons->getBeaconById($id);
+
+        return $this->twig->render('beacon.twig', array(
+            'beacon' => $beacon,
+        ));
+    }
+
+    public function editBeaconPostAction($id, Request $request)
+    {
+        $name = $request->request->get('name');
+        $uuid = $request->request->get('uuid');
+        $major = $request->request->get('major');
+        $minor = $request->request->get('minor');
+        $active = $request->request->get('active');
+
+        $duplicate = $this->beacons->isDuplicate($uuid, $major, $minor, $id);
+
+        if ($duplicate) {
+
+            $beacon = array(
+                'id' => $id,
+                'name' => $name,
+                'uuid' => $uuid,
+                'major' => $major,
+                'minor' => $minor,
+                'active' => $active,
+            );
+
+            return $this->twig->render('beacon.twig', array(
+                'message' => 'There is already another Beacon with the same UUID, major and minor.',
+                'beacon' => $beacon,
+            ));
 
         } else {
 
-            $mapping = $request->request->get('mapping');
-            $user = $request->getUser();
+            $this->beacons->saveBeacon($id, $name, $uuid, $major, $minor, $active);
 
-            // clear old values
-            $this->beacons->deleteMappings($user);
-
-            // save new values
-            foreach ($mapping as $beacon => $lights) {
-                foreach ($lights as $light => $true) {
-                    $this->beacons->saveMapping($beacon, $light, $user);
-                }
-            }
-
-            return new RedirectResponse($this->url->generate('setup', array('message' => 'Setup was saved successfully.')));
+            return new RedirectResponse($this->url->generate('setup', array('message' => 'Beacon was saved successfully.')));
         }
     }
 }

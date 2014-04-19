@@ -31,11 +31,34 @@ class Beacons
         ));
     }
 
-    public function saveBeaconActive($beacon, $active = false)
+    public function saveBeacon($id, $name, $uuid, $major, $minor, $active)
     {
-        $sql = 'UPDATE `beacons` SET `active` = ? WHERE `id` = ?';
+        $sql = 'UPDATE `beacons` SET `name` = ?, `uuid` = ?, `major` = ?, `minor` = ?, `active` = ? WHERE `id` = ?';
 
-        $result = $this->database->executeUpdate($sql, array($active, $beacon));
+        $result = $this->database->executeUpdate($sql, array(
+            $name,
+            $uuid,
+            $major,
+            $minor,
+            $active,
+            $id,
+        ));
+    }
+
+    public function isDuplicate($uuid, $major, $minor, $id = '0')
+    {
+        $beacons = $this->getBeacons();
+        $duplicate = false;
+        foreach ($beacons as $beacon) {
+            if ($beacon['uuid'] == $uuid && $beacon['major'] == $major && $beacon['minor'] == $minor) {
+                if ($beacon['id'] != $id) {
+                    $duplicate = true;
+                    break;
+                }
+            }
+        }
+
+        return $duplicate;
     }
 
     public function getBeacons()
@@ -65,8 +88,17 @@ class Beacons
         return $result->fetchAll();
     }
 
-    public function getBeacon($uuid, $major, $minor) {
+    public function getBeaconById($id)
+    {
+        $sql = 'SELECT * FROM `beacons` WHERE `id` = ?';
 
+        $beacon = $this->database->fetchAssoc($sql, array($id));
+
+        return $beacon;
+    }
+
+    public function getBeacon($uuid, $major, $minor)
+    {
         $sql = 'SELECT * FROM `beacons` WHERE `uuid` = ? AND `major` = ? AND `minor` = ?';
 
         $beacon = $this->database->fetchAssoc($sql, array($uuid, $major, $minor));

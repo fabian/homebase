@@ -1,0 +1,79 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>
+        {% if beacon is defined %}
+            Edit {{ beacon.name }}
+        {% else %}
+            Add Beacon
+        {% endif %}
+    </h1>
+</div>
+
+{% if message is defined and message %}
+<div class="alert alert-danger">{{ message }}</div>
+{% endif %}
+
+<form class="form-horizontal" role="form" method="post" action="">
+
+<div class="form-group">
+    <label for="name" class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ beacon.name|default(name|default('')) }}">
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="uuid" class="col-sm-2 control-label">UUID</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="uuid" name="uuid" placeholder="UUID" value="{{ beacon.uuid|default(uuid|default(''))}}">
+    </div>
+    <div class="col-md-6">
+        <span class="help-block">e.g. C457CAB2-C7F5-11E3-9A38-3389CC1F415C</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="major" class="col-sm-2 control-label">Major</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="major" name="major" placeholder="Major" value="{{ beacon.major|default(major|default('')) }}">
+    </div>
+    <div class="col-md-6">
+        <span class="help-block">e.g. 75634</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="minor" class="col-sm-2 control-label">Minor</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" id="minor" name="minor" placeholder="Minor" value="{{ beacon.minor|default(minor|default('')) }}">
+    </div>
+    <div class="col-md-6">
+        <span class="help-block">e.g. 16839</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="active" value="1"{% if beacon.active|default(active|default(false)) %} checked="checked"{% endif %}> Active
+            </label>
+        </div>
+    </div>
+</div>
+
+<hr/>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Save Beacon</button>
+        <a href="{{ path('setup') }}" class="btn btn-link">Cancel</a>
+    </div>
+</div>
+
+</form>
+
+{%  endblock %}

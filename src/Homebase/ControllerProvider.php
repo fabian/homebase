@@ -25,6 +25,10 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers->get('/report/measurements/', 'report.controller:measurementsAction');
         $controllers->get('/setup/', 'setup.controller:indexAction')->bind('setup');
         $controllers->post('/setup/', 'setup.controller:saveAction');
+        $controllers->get('/setup/add/', 'setup.controller:addBeaconAction')->bind('addBeacon');
+        $controllers->post('/setup/add/', 'setup.controller:addBeaconPostAction');
+        $controllers->get('/setup/edit/{id}/', 'setup.controller:editBeaconAction')->bind('editBeacon');
+        $controllers->post('/setup/edit/{id}/', 'setup.controller:editBeaconPostAction');
         $controllers->get('/oauth/authorize/', 'oauth.controller:authorizeAction')->bind('authorize');
         $controllers->post('/oauth/authorize/', 'oauth.controller:authorizePostAction');
         $controllers->get('/beacons/{uuid}/{major}/{minor}/', 'beacons.controller:getBeacon');

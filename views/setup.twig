@@ -1,8 +1,14 @@
 {% extends "layout.twig" %}
 
 {% block content %}
+
 <div class="page-header">
-    <h1>Setup</h1>
+    {% spaceless %}
+        <h1>
+            <span>Setup</span>
+            <a href="{{ path('addBeacon') }}" class="btn btn-link">Add Beacon</a>
+        </h1>
+    {% endspaceless %}
 </div>
 
 {% if message %}
@@ -16,12 +22,12 @@
         {% if beacon.active %}
             <div class="col-md-4">
                 <div class="page-header">
-                    <h2>
-                        ⬢ {{ beacon.name }}
-                        <button type="submit" class="btn btn-link pull-right" name="hide[{{ beacon.id }}]">
-                            Hide Beacon
-                        </button>
-                    </h2>
+                    {% spaceless %}
+                        <h2>
+                            <span>⬢ {{ beacon.name }}</span>
+                            <a href="{{ path('editBeacon', {id: beacon.id}) }}" class="btn btn-link">Edit</a>
+                        </h2>
+                    {% endspaceless %}
                 </div>
                 {% for light in lights %}
                 <div class="checkbox">
@@ -52,7 +58,7 @@
         <li>
             {{ beacon.name }}
             <small class="text-muted">{{ beacon.uuid }} {{ beacon.major }} {{ beacon.minor }}</small>
-            <button type="submit" class="btn btn-link" name="show[{{ beacon.id }}]">Show</button>
+            <a href="{{ path('editBeacon', {id: beacon.id}) }}" class="btn btn-link">Edit</a>
         </li>
     {% endif %}
 {% endfor %}
