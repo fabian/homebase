@@ -23,6 +23,7 @@ class ControllerProvider implements \Silex\ControllerProviderInterface
         $controllers->get('/report/', 'report.controller:indexAction')->bind('report');
         $controllers->get('/report/day/{day}/', 'report.controller:dayAction');
         $controllers->get('/report/measurements/', 'report.controller:measurementsAction');
+        $controllers->get('/report/rooms/', 'report.controller:roomsAction');
         $controllers->get('/setup/', 'setup.controller:indexAction')->bind('setup');
         $controllers->post('/setup/', 'setup.controller:saveAction');
         $controllers->get('/setup/add/', 'setup.controller:addBeaconAction')->bind('addBeacon');

@@ -25,6 +25,11 @@ class ReportController
         return $this->twig->render('report.twig');
     }
 
+    public function roomsAction()
+    {
+        return $this->twig->render('rooms.twig');
+    }
+
     public function dayAction($day)
     {
         $day = strtotime($day);

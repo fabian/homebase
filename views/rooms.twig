@@ -1,0 +1,29 @@
+{% extends "layout.twig" %}
+
+{% block head %}
+<link href="{{ app.request.baseUrl }}/components/colorbrewer/colorbrewer.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Rooms</h1>
+</div>
+
+<label>Beacon</label>
+<select>
+    <option>Ice</option>
+</select>
+
+<label>Signal</label>
+<select>
+    <option value="2014-04-02">-12 dBm</option>
+</select>
+
+<div id="measurements" class="GnBu">
+    <div id="floor-1"></div>
+</div>
+{%  endblock %}
+
+{%  block footer %}
+<script src="{{ app.request.baseUrl }}/js/rooms.js"></script>
+{% endblock %}
