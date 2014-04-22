@@ -62,8 +62,9 @@ class ReportController
     public function measurementsAction()
     {
         $beacon = 2;
-        $from = date('c', strtotime('-6 hours'));
-        $measurements = $this->beacons->getMeasurements($beacon, $from);
+        $from = date('c', strtotime('2014-03-30 17:00:00'));
+        $to = date('c', strtotime('2014-03-30 18:00:00'));
+        $measurements = $this->beacons->getMeasurements($beacon, $from, $to);
 
         $positions = array();
         foreach ($measurements as $row) {
