@@ -24,7 +24,7 @@
                 <div class="page-header">
                     {% spaceless %}
                         <h2>
-                            <span>⬢ {{ beacon.name }}</span>
+                            <span>⬢ {{ beacon.name|default('untitled') }}</span>
                             <a href="{{ path('editBeacon', {id: beacon.id}) }}" class="btn btn-link">Edit</a>
                         </h2>
                     {% endspaceless %}
