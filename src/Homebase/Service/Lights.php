@@ -65,6 +65,22 @@ class Lights
         return $result;
     }
 
+    public function getLightsOn($on)
+    {
+        $sql = 'SELECT `id`,
+            (SELECT `on`
+                FROM `lights_log` ll
+                WHERE ll.light = l.id
+                ORDER BY `created` DESC
+                LIMIT 1) AS `on`
+            FROM `lights` l
+            HAVING `on` = ?';
+
+        $result = $this->database->fetchAll($sql, array($on));
+
+        return $result;
+    }
+
     public function getSummedLogs($from, $to)
     {
         $sql = 'SELECT l.light, DATE_FORMAT(l.created, "%Y-%m-%d") AS `date`, SUM(l.on) AS `hours` 

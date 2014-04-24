@@ -70,6 +70,15 @@ class Beacons
         return $result->fetchAll();
     }
 
+    public function getNumberBeacons($active)
+    {
+        $sql = 'SELECT COUNT(*) FROM `beacons` WHERE `active` = ?';
+
+        $result = $this->database->executeQuery($sql, array($active));
+
+        return $result->fetchColumn(0);
+    }
+
     public function getProximities($from, $to, $limit = 100)
     {
         $sql = 'SELECT * FROM `beacons_proximities` WHERE `recorded` >= ? AND `recorded` < ? ORDER BY `recorded` DESC LIMIT ?';

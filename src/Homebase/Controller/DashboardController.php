@@ -68,11 +68,23 @@ class DashboardController
 
         $mode = $this->config->get(Config::ENGINE_MODE);
 
+        $beaconsActive = $this->beacons->getNumberBeacons(true);
+        $beaconsInactive = $this->beacons->getNumberBeacons(false);
+        $beaconsTotal = $beaconsActive + $beaconsInactive;
+
+        $lightsOn = count($this->lights->getLightsOn(true));
+        $lightsOff = count($this->lights->getLightsOn(false));
+        $lightsTotal = $lightsOn + $lightsOff;
+
         return $this->twig->render('dashboard.twig', array(
             'states' => $states,
             'actions' => $actions,
             'events' => $events,
             'mode' => $mode,
+            'beacons_active' => $beaconsActive,
+            'beacons_total' => $beaconsTotal,
+            'lights_on' => $lightsOn,
+            'lights_total' => $lightsTotal,
         ));
     }
 
