@@ -30,6 +30,7 @@ class BeaconsController
         $occurred = $request->get('occurred');
         $positionX = $request->get('x', null);
         $positionY = $request->get('y', null);
+        $power = $request->get('power', null);
 
         $occurredDateTime = new \DateTime($occurred);
         $occurred = $occurredDateTime->format('Y-m-d H:i:s');
@@ -43,7 +44,7 @@ class BeaconsController
         // get beacon id
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
-        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi, $occurred, $occurredMicro, $positionX, $positionY);
+        $this->beacons->addProximity($beacon['id'], $accuracy, $proximity, $rssi, $occurred, $occurredMicro, $positionX, $positionY, $power);
 
         return new JsonResponse();
     }

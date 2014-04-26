@@ -11,11 +11,11 @@ class Beacons
         $this->database = $database;
     }
 
-    public function addProximity($beacon, $accuracy, $proximity, $rssi, $occurred, $occurredMicro, $positionX, $positionY)
+    public function addProximity($beacon, $accuracy, $proximity, $rssi, $occurred, $occurredMicro, $positionX, $positionY, $power)
     {
-        $sql = 'INSERT INTO `beacons_proximities` (`beacon`, `accuracy`, `proximity`, `rssi`, `occurred`, `occurred_micro`, `position_x`, `position_y`, `recorded`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())';
+        $sql = 'INSERT INTO `beacons_proximities` (`beacon`, `accuracy`, `proximity`, `rssi`, `occurred`, `occurred_micro`, `position_x`, `position_y`, `power`, `recorded`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())';
 
-        $result = $this->database->executeUpdate($sql, array($beacon, $accuracy, $proximity, $rssi, $occurred, $occurredMicro, $positionX, $positionY));
+        $result = $this->database->executeUpdate($sql, array($beacon, $accuracy, $proximity, $rssi, $occurred, $occurredMicro, $positionX, $positionY, $power));
     }
 
     public function addBeacon($uuid, $major, $minor, $name = '', $active = false)
