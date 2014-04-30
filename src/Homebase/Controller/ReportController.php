@@ -61,9 +61,9 @@ class ReportController
 
     public function measurementsAction()
     {
-        $beacon = 2;
-        $from = date('c', strtotime('2014-03-30 17:00:00'));
-        $to = date('c', strtotime('2014-03-30 18:00:00'));
+        $beacon = 7675;
+        $from = date('c', strtotime('2014-03-01 17:00:00'));
+        $to = date('c', strtotime('2014-05-30 18:00:00'));
         $measurements = $this->beacons->getMeasurements($beacon, $from, $to);
 
         $positions = array();
@@ -98,9 +98,9 @@ class ReportController
                 } 
 
                 $data[] = array(
-                    'x' => $x,
-                    'y' => $y,
-                    'rssi' => $median,
+                    'x' => (int) $x,
+                    'y' => (int) $y,
+                    'rssi' => (int) $median,
                 );
             }
         }

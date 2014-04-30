@@ -15,13 +15,8 @@ $(function () {
         d3.json('../measurements', function(error, response) {
 
             var data = response.data;
-            data.forEach(function(d) {
-                d.position_x = parseInt(d.x, 10);
-                d.position_y = parseInt(d.y, 10);
-                d.rssi = parseFloat(d.rssi);
-            });
 
-            var colorScale = d3.scale.quantile()
+            var colorScale = d3.scale.quantile() // scale.quantize breaks if min == max
                 .domain([d3.min(data, function(d) { return d.rssi; }), d3.max(data, function(d) { return d.rssi; })])
                 .range(d3.range(9));
 
@@ -30,7 +25,7 @@ $(function () {
                 .enter()
                 .append('rect')
                 .attr('x', function (d) { return size * (d.x) + 'px'; })
-                .attr('y', function (d) { return size * (d.y) + 'px'; })
+                .attr('y', function (d) { return size * (d.y - 1) + 'px'; })
                 .attr('width', size)
                 .attr('height', size)
                 .attr('class', function(d) { return "q" + colorScale(d.rssi) + "-9"; });
