@@ -83,7 +83,7 @@ class ReportController
         foreach ($positions as $x => $position) {
             foreach ($position as $y => $rssi) {
 
-                //average
+                // average
                 $avg = array_sum($rssi) / count($rssi);
 
                 // median
@@ -101,6 +101,7 @@ class ReportController
                     'x' => (int) $x,
                     'y' => (int) $y,
                     'rssi' => (int) $median,
+                    'all' => $rssi,
                 );
             }
         }

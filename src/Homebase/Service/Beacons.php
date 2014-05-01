@@ -90,7 +90,7 @@ class Beacons
 
     public function getMeasurements($beacon, $from, $to)
     {
-        $sql = 'SELECT `position_x`, `position_y`, `rssi` FROM `beacons_proximities` WHERE `beacon` = ? AND `recorded` >= ? AND `recorded` < ? AND `position_x` IS NOT NULL AND `position_y` IS NOT NULL AND `rssi` < 0 ORDER BY `rssi`';
+        $sql = 'SELECT `position_x`, `position_y`, `rssi` FROM `beacons_proximities` WHERE `beacon` = ? AND `recorded` >= ? AND `recorded` < ? AND `position_x` IS NOT NULL AND `position_y` IS NOT NULL AND `rssi` < 0 ORDER BY `position_x`, `position_y`, `rssi`';
 
         $result = $this->database->executeQuery($sql, array($beacon, $from, $to));
 
