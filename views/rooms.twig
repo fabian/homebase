@@ -9,15 +9,24 @@
     <h1>Rooms</h1>
 </div>
 
-<label>Beacon</label>
-<select>
-    <option>Ice</option>
-</select>
-
-<label>Signal</label>
-<select>
-    <option value="2014-04-02">-12 dBm</option>
-</select>
+<form class="form-inline" role="form">
+    
+    <select class="form-control" id="select-beacon">
+        <optgroup label="Beacon">
+            {% for beacon in beacons %}
+                {% if beacon.active %}
+                    <option value="{{ beacon.id }}">{{ beacon.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </optgroup>
+    </select>
+    <select class="form-control" id="select-power">
+        <optgroup label="Broadcasting Power">
+            <option value="-12">-12 dBm</option>
+            <option value="-4">-4 dBm</option>
+        </optgroup>
+    </select>
+</form>
 
 <div class="row">
     <div class="col-md-12">

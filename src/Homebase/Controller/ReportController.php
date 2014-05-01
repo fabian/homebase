@@ -2,6 +2,7 @@
 
 namespace Homebase\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -27,7 +28,11 @@ class ReportController
 
     public function roomsAction()
     {
-        return $this->twig->render('rooms.twig');
+        $beacons = $this->beacons->getBeacons();
+
+        return $this->twig->render('rooms.twig', array(
+            'beacons' => $beacons,
+        ));
     }
 
     public function dayAction($day)
@@ -59,12 +64,14 @@ class ReportController
         return new JsonResponse(array('data' => $data));
     }
 
-    public function measurementsAction()
+    public function measurementsAction(Request $request)
     {
-        $beacon = 7675;
+        $beacon = $request->get('beacon');
+        $power = $request->get('power');
+
         $from = date('c', strtotime('2014-03-01 17:00:00'));
         $to = date('c', strtotime('2014-05-30 18:00:00'));
-        $measurements = $this->beacons->getMeasurements($beacon, $from, $to);
+        $measurements = $this->beacons->getMeasurements($beacon, $power, $from, $to);
 
         $positions = array();
         foreach ($measurements as $row) {

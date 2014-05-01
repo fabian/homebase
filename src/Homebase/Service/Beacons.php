@@ -88,11 +88,11 @@ class Beacons
         return $result->fetchAll();
     }
 
-    public function getMeasurements($beacon, $from, $to)
+    public function getMeasurements($beacon, $power, $from, $to)
     {
-        $sql = 'SELECT `position_x`, `position_y`, `rssi` FROM `beacons_proximities` WHERE `beacon` = ? AND `recorded` >= ? AND `recorded` < ? AND `position_x` IS NOT NULL AND `position_y` IS NOT NULL AND `rssi` < 0 ORDER BY `position_x`, `position_y`, `rssi`';
+        $sql = 'SELECT `position_x`, `position_y`, `rssi` FROM `beacons_proximities` WHERE `beacon` = ? AND `power` = ? AND `recorded` >= ? AND `recorded` < ? AND `position_x` IS NOT NULL AND `position_y` IS NOT NULL AND `rssi` < 0 ORDER BY `position_x`, `position_y`, `rssi`';
 
-        $result = $this->database->executeQuery($sql, array($beacon, $from, $to));
+        $result = $this->database->executeQuery($sql, array($beacon, $power, $from, $to));
 
         return $result->fetchAll();
     }
