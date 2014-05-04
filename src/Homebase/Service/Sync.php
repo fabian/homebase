@@ -2,7 +2,7 @@
 
 namespace Homebase\Service;
 
-class Sync
+class Sync implements Runnable
 {
     protected $remoteHue;
 

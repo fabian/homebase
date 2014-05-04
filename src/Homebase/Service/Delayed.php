@@ -2,7 +2,7 @@
 
 namespace Homebase\Service;
 
-class Delayed
+class Delayed implements Runnable
 {
     protected $lights;
 

@@ -2,7 +2,7 @@
 
 namespace Homebase\Service;
 
-class Engine
+class Engine implements Runnable
 {
     const STATE_INSIDE = 'inside';
 
