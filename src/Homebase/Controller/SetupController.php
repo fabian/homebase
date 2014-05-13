@@ -71,7 +71,9 @@ class SetupController
 
     public function addBeaconAction(Request $request)
     {
-        return $this->twig->render('beacon.twig');
+        return $this->twig->render('beacon.twig', array(
+            'active' => true,
+        ));
     }
 
     public function addBeaconPostAction(Request $request)
