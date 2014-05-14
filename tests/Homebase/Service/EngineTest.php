@@ -2,8 +2,6 @@
 
 namespace Homebase\Service;
 
-use Homebase\Service\Engine;
-
 class EngineTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()

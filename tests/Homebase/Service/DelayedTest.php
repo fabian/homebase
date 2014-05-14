@@ -2,8 +2,6 @@
 
 namespace Homebase\Service;
 
-use Homebase\Service\Delayed;
-
 class DelayedTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -11,13 +9,13 @@ class DelayedTest extends \PHPUnit_Framework_TestCase
         $this->lights = $this->getMockBuilder('Homebase\Service\Lights')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->remoteHue = $this->getMockBuilder('Homebase\Service\RemoteHue')
+        $this->hue = $this->getMockBuilder('Homebase\Service\Hue')
             ->disableOriginalConstructor()
             ->getMock();
         $this->config = $this->getMockBuilder('Homebase\Service\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->delayed = new Delayed($this->lights, $this->remoteHue, $this->config);
+        $this->delayed = new Delayed($this->lights, $this->hue, $this->config);
     }
 
     public function testRun()
@@ -36,7 +34,7 @@ class DelayedTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue('automatic'));
 
-        $this->remoteHue->expects($this->at(0))
+        $this->hue->expects($this->at(0))
             ->method('setLightState')
             ->with(
                 $this->equalTo('3'),
@@ -50,7 +48,7 @@ class DelayedTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('executed')
             );
 
-        $this->remoteHue->expects($this->at(1))
+        $this->hue->expects($this->at(1))
             ->method('setLightState')
             ->with(
                 $this->equalTo('4'),
@@ -89,7 +87,7 @@ class DelayedTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('executed')
             );
 
-        $this->remoteHue->expects($this->never())
+        $this->hue->expects($this->never())
             ->method($this->anything());
 
         $this->delayed->run();
