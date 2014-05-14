@@ -4,7 +4,7 @@ return array(
     'debug' => true,
     'remote_api' => array(
         'bridge_id' => '',
-        'access_token' => '',
+        'access_token' => '', // see http://blog.paulshi.me/technical/2013/11/27/Philips-Hue-Remote-API-Explained.html
     ),
     'database' => array(
         'default' => array(
