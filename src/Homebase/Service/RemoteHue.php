@@ -2,7 +2,7 @@
 
 namespace Homebase\Service;
 
-class RemoteHue
+class RemoteHue implements Hue
 {
     protected $bridgeId;
 

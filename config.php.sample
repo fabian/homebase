@@ -2,9 +2,14 @@
 
 return array(
     'debug' => true,
-    'remote_api' => array(
+    'hue' => 'hue_local', // hue_local or hue_remote
+    'hue_local' => array(
+        'url' => 'http://192.168.0.1/api/newdeveloper'
+    ),
+    // for hue_remote see http://blog.paulshi.me/technical/2013/11/27/Philips-Hue-Remote-API-Explained.html
+    'hue_remote' => array(
         'bridge_id' => '',
-        'access_token' => '', // see http://blog.paulshi.me/technical/2013/11/27/Philips-Hue-Remote-API-Explained.html
+        'access_token' => '',
     ),
     'database' => array(
         'default' => array(

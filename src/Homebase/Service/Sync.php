@@ -4,19 +4,19 @@ namespace Homebase\Service;
 
 class Sync implements Runnable
 {
-    protected $remoteHue;
+    protected $hue;
 
     protected $lights;
 
-    public function __construct($remoteHue, $lights)
+    public function __construct($hue, $lights)
     {
-        $this->remoteHue = $remoteHue;
+        $this->hue = $hue;
         $this->lights = $lights;
     }
 
     public function run()
     {
-        $info = $this->remoteHue->getBridgeInfo();
+        $info = $this->hue->getBridgeInfo();
 
         foreach ($info['lights'] as $number => $lightInfo) {
 

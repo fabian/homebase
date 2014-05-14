@@ -6,14 +6,14 @@ class Delayed implements Runnable
 {
     protected $lights;
 
-    protected $remoteHue;
+    protected $hue;
 
     protected $config;
 
-    public function __construct($lights, $remoteHue, $config)
+    public function __construct($lights, $hue, $config)
     {
         $this->lights = $lights;
-        $this->remoteHue = $remoteHue;
+        $this->hue = $hue;
         $this->config = $config;
     }
 
@@ -26,7 +26,7 @@ class Delayed implements Runnable
             // only switch lights if engine is running
             if ($this->config->get(Config::ENGINE_MODE) != Config::ENGINE_MODE_MANUAL) {
 
-                $this->remoteHue->setLightState($light['number'], array('on' => (boolean) $light['on']));
+                $this->hue->setLightState($light['number'], array('on' => (boolean) $light['on']));
             }
 
             // always remove light from queue

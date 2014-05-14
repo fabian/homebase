@@ -15,17 +15,28 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
     {
         $config = $this->config;
 
-        $app['client.remotehue'] = $app->share(function () use ($app) {
+        $app['client.hue_remote'] = $app->share(function () use ($app, $config) {
             $client = new \Guzzle\Http\Client('https://www.meethue.com/api/');
             $client->setUserAgent('hue/1.1.3 CFNetwork/672.0.2 Darwin/14.0.0');
             return $client;
         });
 
-        $app['remotehue'] = $app->share(function () use ($app, $config) {
+        $app['hue_remote'] = $app->share(function () use ($app, $config) {
             return new \Homebase\Service\RemoteHue(
-                $app['client.remotehue'],
-                $config['remote_api']['bridge_id'],
-                $config['remote_api']['access_token']
+                $app['client.hue_remote'],
+                $config['hue_remote']['bridge_id'],
+                $config['hue_remote']['access_token']
+            );
+        });
+
+        $app['client.hue_local'] = $app->share(function () use ($app, $config) {
+            $client = new \Guzzle\Http\Client($config['hue_local']['url']);
+            return $client;
+        });
+
+        $app['hue_local'] = $app->share(function () use ($app, $config) {
+            return new \Homebase\Service\LocalHue(
+                $app['client.hue_local']
             );
         });
 
@@ -52,14 +63,14 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app['delayed'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Delayed(
                 $app['lights'],
-                $app['remotehue'],
+                $app[$config['hue']],
                 $app['config']
             );
         });
 
         $app['sync'] = $app->share(function() use ($app, $config) {
             return new \Homebase\Service\Sync(
-                $app['remotehue'],
+                $app[$config['hue']],
                 $app['lights']
             );
         });
