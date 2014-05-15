@@ -75,8 +75,11 @@ class BeaconsController
         return new JsonResponse();
     }
 
-    public function getBeacons()
+    public function getBeacons(Request $request)
     {
+        $accessToken = $request->get('access_token', '');
+        $this->checkAccessToken($accessToken);
+
         $beacons = $this->beacons->getBeacons();
 
         $data = array();
@@ -94,8 +97,11 @@ class BeaconsController
         return new JsonResponse(array('beacons' => $data));
     }
 
-    public function getBeacon($uuid, $major, $minor)
+    public function getBeacon($uuid, $major, $minor, Request $request)
     {
+        $accessToken = $request->get('access_token', '');
+        $this->checkAccessToken($accessToken);
+
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
 
         return new JsonResponse($beacon);
