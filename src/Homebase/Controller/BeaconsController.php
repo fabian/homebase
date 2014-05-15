@@ -85,10 +85,10 @@ class BeaconsController
         $data = array();
         foreach ($beacons as $beacon) {
             $data[] = array(
-                'id' => $beacon['id'],
+                'id' => (int) $beacon['id'],
                 'uuid' => $beacon['uuid'],
-                'major' => $beacon['major'],
-                'minor' => $beacon['minor'],
+                'major' => (int) $beacon['major'],
+                'minor' => (int) $beacon['minor'],
                 'name' => $beacon['name'],
                 'active' => (bool) $beacon['active'],
             );
