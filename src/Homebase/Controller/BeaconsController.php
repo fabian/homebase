@@ -75,6 +75,25 @@ class BeaconsController
         return new JsonResponse();
     }
 
+    public function getBeacons()
+    {
+        $beacons = $this->beacons->getBeacons();
+
+        $data = array();
+        foreach ($beacons as $beacon) {
+            $data[] = array(
+                'id' => $beacon['id'],
+                'uuid' => $beacon['uuid'],
+                'major' => $beacon['major'],
+                'minor' => $beacon['minor'],
+                'name' => $beacon['name'],
+                'active' => (bool) $beacon['active'],
+            );
+        }
+
+        return new JsonResponse(array('beacons' => $data));
+    }
+
     public function getBeacon($uuid, $major, $minor)
     {
         $beacon = $this->beacons->getBeacon($uuid, $major, $minor);
