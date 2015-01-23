@@ -10,3 +10,4 @@ cp config.php.sample config.php
 cp web/.htaccess.dist web/.htaccess
 mysql < install.sql
 ```
+Make sure to edit the database connection in `config.php`.
